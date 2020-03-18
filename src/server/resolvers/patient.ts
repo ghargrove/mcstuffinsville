@@ -16,6 +16,14 @@ interface IPatientsInput {
   filters?: IPatientFilter[]
 }
 
+interface IPatientsResponse {
+  totalCount: number
+  edges: {
+    cursor: string
+    node: IPatient[]
+  }
+}
+
 // Helpers for encoding & decoding the cursor
 const encodeCursor = (value: string) => Buffer.from(value).toString('base64')
 const decodeCursor = (cursor: string) =>
@@ -24,7 +32,10 @@ const decodeCursor = (cursor: string) =>
 const patientResolvers: IResolvers = {
   Query: {
     getPatient: (_, { id }: { id: number }) => getPatients()[id],
-    getPatients: (_, { after, filters = [], first }: IPatientsInput) => {
+    getPatients: (
+      _,
+      { after, filters = [], first }: IPatientsInput
+    ): IPatientsResponse => {
       // TODO:
       // We'll need to create a cursor & edges
       // How to implement this w/ the filter
@@ -60,6 +71,7 @@ const patientResolvers: IResolvers = {
       const nextCursor = encodeCursor(patients[endIndex].email)
 
       return {
+        totalCount: patients.length,
         edges: {
           cursor,
           node: patients.slice(startIndex, endIndex)

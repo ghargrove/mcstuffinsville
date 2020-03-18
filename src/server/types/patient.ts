@@ -20,6 +20,7 @@ const patientType = gql`
   }
 
   type GetPatientsResponse {
+    totalCount: Int
     edges: PatientEdges
   }
 
