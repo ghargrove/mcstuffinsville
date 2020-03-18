@@ -1,40 +1,41 @@
 import React from 'react'
 
 import { ApolloProvider, useQuery } from '@apollo/react-hooks'
-import ApolloClient from 'apollo-client'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { HttpLink } from 'apollo-link-http'
 import gql from 'graphql-tag'
+import { ThemeProvider } from 'styled-components'
 
 // Load the IPatient type from the server
 import { IPatient } from '../../server/store'
+import TextField from '../components/Generic/TextField'
+import client from '../client'
+import theme from '../theme'
 
-interface IGetPatientResponse {
-  getPatient: IPatient
+interface IGetPatientsResponse {
+  getPatients: {
+    edges: {
+      cursor: string | null
+      node: IPatient[]
+    }
+  }
 }
 
-const getPatientQuery = gql`
-  query getPatient($id: Int!) {
-    getPatient(id: $id) {
-      id
-      email
+const getPatientsQuery = gql`
+  query getPatients {
+    getPatients {
+      edges {
+        node {
+          id
+          email
+          state
+        }
+      }
     }
   }
 `
 
-const client = new ApolloClient({
-  cache: new InMemoryCache({
-    addTypename: false
-  }),
-  link: new HttpLink({
-    uri: 'http://localhost:3000/graphql'
-  })
-})
-
 const Patient: React.FC = () => {
-  const { loading, error, data } = useQuery<IGetPatientResponse>(
-    getPatientQuery,
-    { variables: { id: 1 } }
+  const { loading, error, data } = useQuery<IGetPatientsResponse>(
+    getPatientsQuery
   )
 
   if (error) {
@@ -45,14 +46,17 @@ const Patient: React.FC = () => {
     return <div>Loading patient...</div>
   }
 
-  return <div>{JSON.stringify(data?.getPatient)}</div>
+  return <div>{JSON.stringify(data?.getPatients)}</div>
 }
 
 const App: React.FC = () => (
-  <ApolloProvider client={client}>
-    <div>React application</div>
-    <Patient />
-  </ApolloProvider>
+  <ThemeProvider theme={theme}>
+    <ApolloProvider client={client}>
+      <div>React application</div>
+      <TextField type="text" />
+      <Patient />
+    </ApolloProvider>
+  </ThemeProvider>
 )
 
 export default App
