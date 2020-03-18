@@ -1,6 +1,7 @@
 import matchSorter from 'match-sorter'
 import { IResolvers } from 'graphql-tools'
 
+import { decodeCursor, encodeCursor } from '../helpers'
 import { getPatients, IPatient } from '../store'
 
 interface IPatientFilter {
@@ -26,11 +27,6 @@ interface IPatientsResponse {
     hasNextPage: boolean
   }
 }
-
-// Helpers for encoding & decoding the cursor
-const encodeCursor = (value: string) => Buffer.from(value).toString('base64')
-const decodeCursor = (cursor: string) =>
-  Buffer.from(cursor, 'base64').toString('utf-8')
 
 /**
  * Generate edge data for patients. I extracted this to keep the resolver slim.
