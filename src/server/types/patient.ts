@@ -15,13 +15,18 @@ const patientType = gql`
   }
 
   type PatientEdges {
-    cursor: String!
+    cursor: String
     node: [Patient!]!
+  }
+
+  type PageInfo {
+    hasNextPage: Boolean
   }
 
   type GetPatientsResponse {
     totalCount: Int
     edges: PatientEdges
+    pageInfo: PageInfo
   }
 
   input Filter {
@@ -36,7 +41,7 @@ const patientType = gql`
     getPatients(
       after: String
       filters: [Filter!]
-      first: Int
+      limit: Int
     ): GetPatientsResponse
   }
 `
