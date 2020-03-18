@@ -14,3 +14,4 @@ This application uses ts-node to run the express server in development. You can 
 ## Testing
 
     npm run lint
+    npm run test
