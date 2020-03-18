@@ -3,7 +3,16 @@ import { ApolloServer, gql } from 'apollo-server-express';
 
 const typeDefs = gql`
   type Patient {
+    id: ID!
+    firstName: String!
+    lastName: String!
     email: String!
+    gender: String!
+    address: String!
+    city: String!
+    state: String!
+    zipCode: String!
+    prescription: String!
   }
   type Query {
     getPatients: [Patient!]!
