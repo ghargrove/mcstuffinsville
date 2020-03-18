@@ -21,9 +21,15 @@ const getPatientsQuery = gql`
     getPatients(after: $after, filters: $filters, limit: $limit) {
       edges {
         node {
-          id
+          firstName
+          lastName
           email
+          gender
+          address
+          city
           state
+          zipCode
+          prescription
         }
       }
     }
@@ -31,9 +37,27 @@ const getPatientsQuery = gql`
 `
 
 const PatientsWrapper = styled.div`
-  background-color: orange;
+  /* background-color: #a1a1a1; */
   color: #181719;
-  padding: 1rem;
+  /* padding: 1rem; */
+`
+
+const PatientsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  row-gap: 0.5rem;
+`
+
+const PatientHeaderCell = styled.div`
+  /* background-color: white; */
+  border-bottom: solid 1px #a1a1a1;
+  padding: 0.5rem 0;
+`
+
+const PatientDataCell = styled.div`
+  /* background-color: white; */
+  border-bottom: solid 1px #efefef;
+  padding: 0 0 0.5rem 0;
 `
 
 const Patients: React.FC = () => {
@@ -58,13 +82,30 @@ const Patients: React.FC = () => {
 
   return (
     <PatientsWrapper>
-      <ul>
+      <PatientsGrid>
+        <PatientHeaderCell>First Name</PatientHeaderCell>
+        <PatientHeaderCell>Last name</PatientHeaderCell>
+        <PatientHeaderCell>Email</PatientHeaderCell>
+        <PatientHeaderCell>Gender</PatientHeaderCell>
+        <PatientHeaderCell>Address</PatientHeaderCell>
+        <PatientHeaderCell>City</PatientHeaderCell>
+        <PatientHeaderCell>State</PatientHeaderCell>
+        <PatientHeaderCell>Zip Code</PatientHeaderCell>
+        <PatientHeaderCell>Prescriptions</PatientHeaderCell>
         {patients.map((p, i) => (
-          <li key={i}>
-            {i} -> {p.email}
-          </li>
+          <React.Fragment key={i}>
+            <PatientDataCell>{p.lastName}</PatientDataCell>
+            <PatientDataCell>{p.email}</PatientDataCell>
+            <PatientDataCell>{p.firstName}</PatientDataCell>
+            <PatientDataCell>{p.gender}</PatientDataCell>
+            <PatientDataCell>{p.address}</PatientDataCell>
+            <PatientDataCell>{p.city}</PatientDataCell>
+            <PatientDataCell>{p.state}</PatientDataCell>
+            <PatientDataCell>{p.zipCode}</PatientDataCell>
+            <PatientDataCell>{p.prescription}</PatientDataCell>
+          </React.Fragment>
         ))}
-      </ul>
+      </PatientsGrid>
     </PatientsWrapper>
   )
 }
