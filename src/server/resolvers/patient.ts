@@ -52,7 +52,7 @@ const patientEdges = (
       ? startIndex + limit - 1
       : patients.length - 1
 
-  // Generate a cursor pointing at the next patient
+  // Generate a cursor pointing at the next patient (if there is one)
   const nextPatient = patients[endIndex + 1]
   const nextCursor =
     nextPatient !== undefined ? encodeCursor(nextPatient.email) : null
