@@ -1,34 +1,10 @@
 import { ApolloServer, gql } from 'apollo-server-express'
 import express from 'express'
 
-import patients from './patients.json'
-
-const typeDefs = gql`
-  type Patient {
-    id: ID!
-    firstName: String!
-    lastName: String!
-    email: String!
-    gender: String!
-    address: String!
-    city: String!
-    state: String!
-    zipCode: String!
-    prescription: String!
-  }
-  type Query {
-    getPatients: [Patient!]!
-  }
-`
-
-const resolvers = {
-  Query: {
-    getPatients: () => patients
-  }
-}
+import schema from './schema'
 
 const port = 3000
-const server = new ApolloServer({ resolvers, typeDefs })
+const server = new ApolloServer({ schema })
 const app = express()
 
 server.applyMiddleware({ app })
