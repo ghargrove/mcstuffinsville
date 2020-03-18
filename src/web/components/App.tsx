@@ -36,7 +36,7 @@ const Patient: React.FC = () => {
     { variables: { id: 1 } }
   )
 
-  if (error || (!loading && data === undefined)) {
+  if (error) {
     return <div>Whoops</div>
   }
 
