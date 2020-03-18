@@ -6,6 +6,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { HttpLink } from 'apollo-link-http'
 import gql from 'graphql-tag'
 
+// Load the IPatient type from the server
 import { IPatient } from '../../server/store'
 
 interface IGetPatientResponse {
