@@ -6,7 +6,7 @@ import { ThemeProvider } from 'styled-components'
 
 // Load the IPatient type from the server
 import { IPatient } from '../../server/store'
-import TextField from '../components/Generic/TextField'
+import Header from '../components/Header'
 import client from '../client'
 import theme from '../theme'
 
@@ -52,8 +52,7 @@ const Patient: React.FC = () => {
 const App: React.FC = () => (
   <ThemeProvider theme={theme}>
     <ApolloProvider client={client}>
-      <h1>McStuffinsfille</h1>
-      <TextField placeholder="Search.." type="text" />
+      <Header />
       <Patient />
     </ApolloProvider>
   </ThemeProvider>
