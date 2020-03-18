@@ -52,8 +52,8 @@ const Patient: React.FC = () => {
 const App: React.FC = () => (
   <ThemeProvider theme={theme}>
     <ApolloProvider client={client}>
-      <div>React application</div>
-      <TextField type="text" />
+      <h1>McStuffinsfille</h1>
+      <TextField placeholder="Search.." type="text" />
       <Patient />
     </ApolloProvider>
   </ThemeProvider>
