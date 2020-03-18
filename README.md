@@ -8,7 +8,8 @@ My daughter loves Doc McStuffins so it seemed appropriate.
 
 This application uses ts-node to run the express server in development. You can start the server with:
 
-    npm run start:server
+    npm run dev
+    npm run server
 
 ## Testing
 
