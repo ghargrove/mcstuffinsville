@@ -14,9 +14,16 @@ const patientType = gql`
     prescription: String!
   }
 
+  input Filter {
+    exact: Boolean
+    field: String!
+    value: String!
+    threshold: Int
+  }
+
   extend type Query {
     getPatient(id: Int!): Patient
-    getPatients: [Patient!]!
+    getPatients(filters: [Filter!]): [Patient!]!
   }
 `
 
