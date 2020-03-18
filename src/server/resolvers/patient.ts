@@ -11,18 +11,25 @@ interface IPatientFilter {
 }
 
 interface IPatientsInput {
-  filters: IPatientFilter[] | undefined
+  after?: string
+  first?: number
+  filters?: IPatientFilter[]
 }
+
+// Helpers for encoding & decoding the cursor
+const encodeCursor = (value: string) => Buffer.from(value).toString('base64')
+const decodeCursor = (cursor: string) =>
+  Buffer.from(cursor, 'base64').toString('utf-8')
 
 const patientResolvers: IResolvers = {
   Query: {
     getPatient: (_, { id }: { id: number }) => getPatients()[id],
-    getPatients: (_, { filters }: IPatientsInput) => {
-      let patients = getPatients()
-      if (filters === undefined) {
-        return patients
-      }
+    getPatients: (_, { after, filters = [], first }: IPatientsInput) => {
+      // TODO:
+      // We'll need to create a cursor & edges
+      // How to implement this w/ the filter
 
+      let patients = getPatients()
       for (const { exact = false, field, threshold, value } of filters) {
         // If we're looking for an exact match just filter it out.
         // The same result could be had by providing threshold == matchSorter.ranking.CASE_SENSITIVE_EQUAL.
@@ -38,7 +45,24 @@ const patientResolvers: IResolvers = {
           keys: [field]
         })
       }
-      return patients
+
+      // If a cursor wasn't provided use the first patient to generate one
+      const cursor = after || encodeCursor(patients[0].email)
+      const startIndex = patients.findIndex(
+        ({ email }) => decodeCursor(cursor) === email
+      )
+
+      // If no limit is provided return the entire list of patients
+      const endIndex =
+        first !== undefined ? startIndex + first : patients.length
+
+      // Generate the cursor for the next set of data
+      const nextCursor = encodeCursor(patients[endIndex].email)
+
+      // console.warn(`CURSOR      = ${cursor}`)
+      // console.warn(`NEXT CURSOR = ${nextCursor}`)
+
+      return patients.slice(startIndex, endIndex)
     }
   }
 }

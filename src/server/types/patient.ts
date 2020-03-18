@@ -23,7 +23,7 @@ const patientType = gql`
 
   extend type Query {
     getPatient(id: Int!): Patient
-    getPatients(filters: [Filter!]): [Patient!]!
+    getPatients(after: String, filters: [Filter!], first: Int): [Patient!]!
   }
 `
 
