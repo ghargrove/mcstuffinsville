@@ -59,10 +59,12 @@ const patientResolvers: IResolvers = {
       // Generate the cursor for the next set of data
       const nextCursor = encodeCursor(patients[endIndex].email)
 
-      // console.warn(`CURSOR      = ${cursor}`)
-      // console.warn(`NEXT CURSOR = ${nextCursor}`)
-
-      return patients.slice(startIndex, endIndex)
+      return {
+        edges: {
+          cursor,
+          node: patients.slice(startIndex, endIndex)
+        }
+      }
     }
   }
 }

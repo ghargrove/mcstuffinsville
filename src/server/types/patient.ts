@@ -14,6 +14,15 @@ const patientType = gql`
     prescription: String!
   }
 
+  type PatientEdges {
+    cursor: String!
+    node: [Patient!]!
+  }
+
+  type GetPatientsResponse {
+    edges: PatientEdges
+  }
+
   input Filter {
     exact: Boolean
     field: String!
@@ -23,7 +32,11 @@ const patientType = gql`
 
   extend type Query {
     getPatient(id: Int!): Patient
-    getPatients(after: String, filters: [Filter!], first: Int): [Patient!]!
+    getPatients(
+      after: String
+      filters: [Filter!]
+      first: Int
+    ): GetPatientsResponse
   }
 `
 
