@@ -15,7 +15,7 @@ const patientType = gql`
   }
 
   extend type Query {
-    getPatient: Patient
+    getPatient(id: Int!): Patient
     getPatients: [Patient!]!
   }
 `
