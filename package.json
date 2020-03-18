@@ -20,7 +20,7 @@
     "*.{ts,tsx}": [
       "prettier --write",
       "npm run lint",
-      "jest"
+      "jest --bail --findRelatedTests"
     ]
   },
   "devDependencies": {

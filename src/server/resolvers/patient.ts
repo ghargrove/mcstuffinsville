@@ -70,10 +70,6 @@ const patientResolvers: IResolvers = {
       _,
       { after, filters = [], limit }: IPatientsInput
     ): IPatientsResponse => {
-      // TODO:
-      // We'll need to create a cursor & edges
-      // How to implement this w/ the filter
-
       let patients = getPatients()
       for (const { exact = false, field, threshold, value } of filters) {
         // If we're looking for an exact match just filter it out.
