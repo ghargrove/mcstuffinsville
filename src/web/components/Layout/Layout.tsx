@@ -8,6 +8,15 @@ import Header from '../Header'
 import Filters from './Filters'
 import Main from './Main'
 
+import stateNames from './states.json'
+
+const Link = styled.a`
+  color: teal;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+`
+
 const Layout = styled.div`
   min-height: 100vh;
   display: flex;
@@ -76,6 +85,15 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
   const handleSearchFilterChange = (searchFilters: IFilterValue[]) =>
     setSearchFilter(searchFilters[0])
 
+  const handleFilterClear: React.MouseEventHandler = () => {
+    const clearFn: React.SetStateAction<IFilterValue> = prevState => ({
+      ...prevState,
+      value: ''
+    })
+    setGenderFilter(clearFn)
+    setStateFilter(clearFn)
+  }
+
   const filters = [genderFilter, searchFilter, stateFilter].filter(
     f => f.value !== ''
   )
@@ -102,11 +120,12 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
               value={stateFilter.value}
             >
               {stateFilter.value === '' && <option>State</option>}
-              <option>Alabama</option>
-              <option>Alaska</option>
-              <option>Arizona</option>
+              {stateNames.map((state, i) => (
+                <option key={i}>{state}</option>
+              ))}
             </FilterSelect>
           </FilterGroup>
+          <Link onClick={handleFilterClear}>Clear filters</Link>
         </Filters>
         <Main>{children({ filters })}</Main>
       </Layout>
