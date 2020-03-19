@@ -10,6 +10,7 @@ import { IFilterValue } from './Layout/Layout'
 
 interface IGetPatientsResponse {
   getPatients: {
+    totalCount
     edges: {
       cursor: string | null
       node: IPatient[]
@@ -20,6 +21,7 @@ interface IGetPatientsResponse {
 const getPatientsQuery = gql`
   query getPatients($after: String, $filters: [Filter!], $limit: Int) {
     getPatients(after: $after, filters: $filters, limit: $limit) {
+      totalCount
       edges {
         node {
           firstName
@@ -86,10 +88,20 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
     return <div>Loading patients...</div>
   }
 
-  const patients = data?.getPatients.edges.node || []
+  // const patients = data?.getPatients//.edges.node || []
+
+  if (data === undefined) {
+    return <div>Whoops</div>
+  }
+
+  const {
+    totalCount,
+    edges: { node: patients }
+  } = data.getPatients || {}
 
   return (
     <PatientsWrapper>
+      <div>Showing {totalCount} patients</div>
       <PatientsGrid>
         <PatientHeaderCell>First Name</PatientHeaderCell>
         <PatientHeaderCell>Last name</PatientHeaderCell>
