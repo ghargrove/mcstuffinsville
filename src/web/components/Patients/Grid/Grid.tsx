@@ -1,37 +1,76 @@
 import React from 'react'
 
 import { IPatient } from '../../../../server/store'
+import useFieldVisibility from '../../../hooks/useFieldVisibility'
 import * as Cells from './Cells'
 import { Row } from './Row'
 
-// TODO: Dynamic rendering
-const Header: React.FC = () => (
-  <Row>
-    <Cells.FirstNameCell>First Name</Cells.FirstNameCell>
-    <Cells.LastNameCell>Last name</Cells.LastNameCell>
-    <Cells.EmailCell>Email</Cells.EmailCell>
-    <Cells.GenderCell>Gender</Cells.GenderCell>
-    <Cells.AddressCell>Address</Cells.AddressCell>
-    <Cells.PrescriptionsCell>Prescriptions</Cells.PrescriptionsCell>
-  </Row>
-)
+const Header: React.FC = () => {
+  const {
+    fieldVisibility: {
+      address,
+      email,
+      firstName,
+      gender,
+      lastName,
+      prescriptions
+    }
+  } = useFieldVisibility()
+  return (
+    <Row>
+      {firstName.isVisible && (
+        <Cells.FirstNameCell>First name</Cells.FirstNameCell>
+      )}
+      {lastName.isVisible && <Cells.LastNameCell>Last name</Cells.LastNameCell>}
+      {email.isVisible && <Cells.EmailCell>Email</Cells.EmailCell>}
+      {gender.isVisible && <Cells.GenderCell>Gender</Cells.GenderCell>}
+      {address.isVisible && <Cells.AddressCell>Address</Cells.AddressCell>}
+      {prescriptions.isVisible && (
+        <Cells.PrescriptionsCell>Prescriptions</Cells.PrescriptionsCell>
+      )}
+    </Row>
+  )
+}
 
-// TODO: Dyanmic rendering
-const DataRow: React.FC<{ patient: IPatient }> = ({ patient }) => (
-  <Row>
-    <Cells.FirstNameCell>{`${patient.id} -> ${patient.firstName}`}</Cells.FirstNameCell>
-    <Cells.LastNameCell>{patient.lastName}</Cells.LastNameCell>
-    <Cells.EmailCell>{patient.email}</Cells.EmailCell>
-    <Cells.GenderCell>{patient.gender}</Cells.GenderCell>
-    <Cells.AddressCell>
-      <p>{patient.address}</p>
-      <p>
-        {patient.city}, {patient.state} {patient.zipCode}
-      </p>
-    </Cells.AddressCell>
-    <Cells.PrescriptionsCell>{patient.prescription}</Cells.PrescriptionsCell>
-  </Row>
-)
+const DataRow: React.FC<{ patient: IPatient }> = ({ patient }) => {
+  const {
+    fieldVisibility: {
+      address,
+      email,
+      firstName,
+      gender,
+      lastName,
+      prescriptions
+    }
+  } = useFieldVisibility()
+  return (
+    <Row>
+      {firstName.isVisible && (
+        <Cells.FirstNameCell>{`${patient.id} -> ${patient.firstName}`}</Cells.FirstNameCell>
+      )}
+      {lastName.isVisible && (
+        <Cells.LastNameCell>{patient.lastName}</Cells.LastNameCell>
+      )}
+      {email.isVisible && <Cells.EmailCell>{patient.email}</Cells.EmailCell>}
+      {gender.isVisible && (
+        <Cells.GenderCell>{patient.gender}</Cells.GenderCell>
+      )}
+      {address.isVisible && (
+        <Cells.AddressCell>
+          <p>{patient.address}</p>
+          <p>
+            {patient.city}, {patient.state} {patient.zipCode}
+          </p>
+        </Cells.AddressCell>
+      )}
+      {prescriptions.isVisible && (
+        <Cells.PrescriptionsCell>
+          {patient.prescription}
+        </Cells.PrescriptionsCell>
+      )}
+    </Row>
+  )
+}
 
 interface IPatientGridProps {
   patients: IPatient[]
