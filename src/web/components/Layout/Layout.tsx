@@ -8,6 +8,8 @@ import Header from '../Header'
 import Filters from './Filters'
 import Main from './Main'
 
+import stateNames from './states.json'
+
 const Layout = styled.div`
   min-height: 100vh;
   display: flex;
@@ -102,9 +104,9 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
               value={stateFilter.value}
             >
               {stateFilter.value === '' && <option>State</option>}
-              <option>Alabama</option>
-              <option>Alaska</option>
-              <option>Arizona</option>
+              {stateNames.map((state, i) => (
+                <option key={i}>{state}</option>
+              ))}
             </FilterSelect>
           </FilterGroup>
         </Filters>
