@@ -7,6 +7,7 @@ import styled from 'styled-components'
 // Load the IPatient type from the server
 import { IPatient } from '../../server/store'
 import { IFilterValue } from './Layout/Layout'
+import Scroll from './Scroll'
 
 interface IGetPatientsResponse {
   getPatients: {
@@ -25,6 +26,7 @@ const getPatientsQuery = gql`
       edges {
         cursor
         node {
+          id
           firstName
           lastName
           email
@@ -44,11 +46,17 @@ const PatientsWrapper = styled.div`
   /* background-color: #a1a1a1; */
   color: #181719;
   /* padding: 1rem; */
+  padding-bottom: 1rem;
+
+  border-bottom: solid 1px blueviolet;
+
+  margin-bottom: 1rem;
 `
 
 const PatientsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: auto;
   row-gap: 0.5rem;
 
   /* height: 100vh; */
@@ -72,8 +80,8 @@ interface IPatientsProps {
 
 const Patients: React.FC<IPatientsProps> = ({ filters }) => {
   const variables = {
-    filters,
-    limit: 50
+    filters
+    // limit: 50
   }
 
   const { loading, error, data, fetchMore } = useQuery<IGetPatientsResponse>(
@@ -100,8 +108,8 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
     edges: { cursor, node: patients }
   } = data.getPatients || {}
 
-  const getMoreData: React.MouseEventHandler = () => {
-    if (cursor !== null) {
+  const getMoreData = () => {
+    if (false && !loading && cursor !== null) {
       fetchMore({
         query: getPatientsQuery,
         variables: { ...variables, after: cursor },
@@ -123,7 +131,7 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
               edges: {
                 ...prevResult.getPatients.edges,
                 cursor: newCursor,
-                node: [...newPatients, ...oldPatients]
+                node: [...oldPatients, ...newPatients]
               }
             }
           } as IGetPatientsResponse
@@ -134,32 +142,36 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
 
   return (
     <PatientsWrapper>
-      <div onClick={getMoreData}>Showing {totalCount} patients</div>
-      <PatientsGrid>
-        <PatientHeaderCell>First Name</PatientHeaderCell>
-        <PatientHeaderCell>Last name</PatientHeaderCell>
-        <PatientHeaderCell>Email</PatientHeaderCell>
-        <PatientHeaderCell>Gender</PatientHeaderCell>
-        <PatientHeaderCell>Address</PatientHeaderCell>
-        <PatientHeaderCell>City</PatientHeaderCell>
-        <PatientHeaderCell>State</PatientHeaderCell>
-        <PatientHeaderCell>Zip Code</PatientHeaderCell>
-        <PatientHeaderCell>Prescriptions</PatientHeaderCell>
+      <div>Showing {totalCount} patients</div>
+      <Scroll onBoundaryReached={getMoreData}>
+        <PatientsGrid>
+          <PatientHeaderCell>First Name</PatientHeaderCell>
+          <PatientHeaderCell>Last name</PatientHeaderCell>
+          <PatientHeaderCell>Email</PatientHeaderCell>
+          <PatientHeaderCell>Gender</PatientHeaderCell>
+          <PatientHeaderCell>Address</PatientHeaderCell>
+          <PatientHeaderCell>City</PatientHeaderCell>
+          <PatientHeaderCell>State</PatientHeaderCell>
+          <PatientHeaderCell>Zip Code</PatientHeaderCell>
+          <PatientHeaderCell>Prescriptions</PatientHeaderCell>
 
-        {patients.map((p, i) => (
-          <React.Fragment key={i}>
-            <PatientDataCell>{p.firstName}</PatientDataCell>
-            <PatientDataCell>{p.lastName}</PatientDataCell>
-            <PatientDataCell>{p.email}</PatientDataCell>
-            <PatientDataCell>{p.gender}</PatientDataCell>
-            <PatientDataCell>{p.address}</PatientDataCell>
-            <PatientDataCell>{p.city}</PatientDataCell>
-            <PatientDataCell>{p.state}</PatientDataCell>
-            <PatientDataCell>{p.zipCode}</PatientDataCell>
-            <PatientDataCell>{p.prescription}</PatientDataCell>
-          </React.Fragment>
-        ))}
-      </PatientsGrid>
+          {patients.map((p, i) => (
+            <React.Fragment key={i}>
+              <PatientDataCell>{`${i + 1} : ${p.id} -> ${
+                p.firstName
+              }`}</PatientDataCell>
+              <PatientDataCell>{p.lastName}</PatientDataCell>
+              <PatientDataCell>{p.email}</PatientDataCell>
+              <PatientDataCell>{p.gender}</PatientDataCell>
+              <PatientDataCell>{p.address}</PatientDataCell>
+              <PatientDataCell>{p.city}</PatientDataCell>
+              <PatientDataCell>{p.state}</PatientDataCell>
+              <PatientDataCell>{p.zipCode}</PatientDataCell>
+              <PatientDataCell>{p.prescription}</PatientDataCell>
+            </React.Fragment>
+          ))}
+        </PatientsGrid>
+      </Scroll>
     </PatientsWrapper>
   )
 }
