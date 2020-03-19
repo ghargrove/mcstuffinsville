@@ -10,7 +10,7 @@ import { IFilterValue } from './Layout/Layout'
 
 interface IGetPatientsResponse {
   getPatients: {
-    totalCount
+    totalCount: number
     edges: {
       cursor: string | null
       node: IPatient[]
@@ -87,8 +87,6 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
   if (loading) {
     return <div>Loading patients...</div>
   }
-
-  // const patients = data?.getPatients//.edges.node || []
 
   if (data === undefined) {
     return <div>Whoops</div>
