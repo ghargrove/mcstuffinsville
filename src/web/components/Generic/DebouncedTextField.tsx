@@ -33,7 +33,7 @@ const DebouncedTextField: React.FC<IDebouncedProps> = ({
   useEffect(() => {
     notify()
     return () => notify.clear()
-  })
+  }, [value])
 
   const handleValueChange: React.ChangeEventHandler<HTMLInputElement> = ({
     target: { value: newValue }

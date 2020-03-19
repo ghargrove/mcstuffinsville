@@ -23,6 +23,7 @@ const getPatientsQuery = gql`
     getPatients(after: $after, filters: $filters, limit: $limit) {
       totalCount
       edges {
+        cursor
         node {
           firstName
           lastName
@@ -70,13 +71,15 @@ interface IPatientsProps {
 }
 
 const Patients: React.FC<IPatientsProps> = ({ filters }) => {
-  const { loading, error, data } = useQuery<IGetPatientsResponse>(
+  const variables = {
+    filters,
+    limit: 50
+  }
+
+  const { loading, error, data, fetchMore } = useQuery<IGetPatientsResponse>(
     getPatientsQuery,
     {
-      variables: {
-        filters,
-        limit: 50
-      }
+      variables
     }
   )
 
@@ -94,8 +97,37 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
 
   const {
     totalCount,
-    edges: { node: patients }
+    edges: { cursor, node: patients }
   } = data.getPatients || {}
+
+  // if (cursor !== null) {
+  //   window.setTimeout(() => {
+  //     console.warn('Fetching new data')
+
+  //     // fetchMore({
+  //     //   query: getPatientsQuery,
+
+  //     //   variables: { ...variables, cursor },
+
+  //     //   updateQuery: (prevResult, { fetchMoreResult }) => {
+  //     //     const prevEntry = prevResult
+  //     //     const oldPatients = prevEntry.getPatients.edges.node
+
+  //     //     const newPatients = fetchMoreResult?.getPatients.edges.node || []
+  //     //     const newCursor = fetchMoreResult?.getPatients.edges.cursor
+
+  //     //     return {
+  //     //       cursor: newCursor,
+  //     //       entry: {
+  //     //         node: [...newPatients, ...oldPatients]
+  //     //       }
+  //     //       // __typename: 'foo'
+  //     //     }
+  //     //   }
+  //     // })
+
+  //   }, 5000)
+  // }
 
   return (
     <PatientsWrapper>
