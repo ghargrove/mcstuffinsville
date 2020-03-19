@@ -94,7 +94,6 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
         variables: { ...variables, after: cursor },
 
         updateQuery: (prevResult, { fetchMoreResult }) => {
-          // TODO: handle no `fetchMoreResult`
           const {
             getPatients: {
               edges: { node: oldPatients }
