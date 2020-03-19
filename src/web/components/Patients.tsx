@@ -4,9 +4,9 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import styled from 'styled-components'
 
-// Load the IPatient type from the server
 import { IPatient } from '../../server/store'
 import { IFilterValue } from './Layout/Layout'
+import PatientGrid from './Patients/Grid'
 import Scroll from './Scroll'
 
 interface IGetPatientsResponse {
@@ -53,35 +53,14 @@ const PatientsWrapper = styled.div`
   margin-bottom: 1rem;
 `
 
-const PatientsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-template-rows: auto;
-  row-gap: 0.5rem;
-
-  /* height: 100vh; */
-`
-
-const PatientHeaderCell = styled.div`
-  /* background-color: white; */
-  border-bottom: solid 1px #a1a1a1;
-  padding: 0.5rem 0;
-`
-
-const PatientDataCell = styled.div`
-  /* background-color: white; */
-  border-bottom: solid 1px #efefef;
-  padding: 0 0 0.5rem 0;
-`
-
 interface IPatientsProps {
   filters: IFilterValue[]
 }
 
 const Patients: React.FC<IPatientsProps> = ({ filters }) => {
   const variables = {
-    filters
-    // limit: 50
+    filters,
+    limit: 50
   }
 
   const { loading, error, data, fetchMore } = useQuery<IGetPatientsResponse>(
@@ -109,7 +88,7 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
   } = data.getPatients || {}
 
   const getMoreData = () => {
-    if (false && !loading && cursor !== null) {
+    if (!loading && cursor !== null) {
       fetchMore({
         query: getPatientsQuery,
         variables: { ...variables, after: cursor },
@@ -144,33 +123,7 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
     <PatientsWrapper>
       <div>Showing {totalCount} patients</div>
       <Scroll onBoundaryReached={getMoreData}>
-        <PatientsGrid>
-          <PatientHeaderCell>First Name</PatientHeaderCell>
-          <PatientHeaderCell>Last name</PatientHeaderCell>
-          <PatientHeaderCell>Email</PatientHeaderCell>
-          <PatientHeaderCell>Gender</PatientHeaderCell>
-          <PatientHeaderCell>Address</PatientHeaderCell>
-          <PatientHeaderCell>City</PatientHeaderCell>
-          <PatientHeaderCell>State</PatientHeaderCell>
-          <PatientHeaderCell>Zip Code</PatientHeaderCell>
-          <PatientHeaderCell>Prescriptions</PatientHeaderCell>
-
-          {patients.map((p, i) => (
-            <React.Fragment key={i}>
-              <PatientDataCell>{`${i + 1} : ${p.id} -> ${
-                p.firstName
-              }`}</PatientDataCell>
-              <PatientDataCell>{p.lastName}</PatientDataCell>
-              <PatientDataCell>{p.email}</PatientDataCell>
-              <PatientDataCell>{p.gender}</PatientDataCell>
-              <PatientDataCell>{p.address}</PatientDataCell>
-              <PatientDataCell>{p.city}</PatientDataCell>
-              <PatientDataCell>{p.state}</PatientDataCell>
-              <PatientDataCell>{p.zipCode}</PatientDataCell>
-              <PatientDataCell>{p.prescription}</PatientDataCell>
-            </React.Fragment>
-          ))}
-        </PatientsGrid>
+        <PatientGrid patients={patients} />
       </Scroll>
     </PatientsWrapper>
   )
