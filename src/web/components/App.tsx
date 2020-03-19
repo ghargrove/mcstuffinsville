@@ -14,9 +14,7 @@ const App: React.FC = () => (
   <ThemeProvider theme={theme}>
     <GlobalStyles />
     <ApolloProvider client={client}>
-      <Layout>
-        <Patients />
-      </Layout>
+      <Layout>{props => <Patients {...props} />}</Layout>
     </ApolloProvider>
   </ThemeProvider>
 )
