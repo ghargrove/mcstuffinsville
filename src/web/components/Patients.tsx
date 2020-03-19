@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import styled from 'styled-components'
 
 import { IPatient } from '../../server/store'
-import { IFilterValue } from './Layout/Layout'
+import { IFilter } from './Layout/Layout'
 import PatientGrid from './Patients/Grid'
 import Scroll from './Scroll'
 
@@ -54,7 +54,7 @@ const PatientsWrapper = styled.div`
 `
 
 interface IPatientsProps {
-  filters: IFilterValue[]
+  filters: IFilter[]
 }
 
 const Patients: React.FC<IPatientsProps> = ({ filters }) => {
