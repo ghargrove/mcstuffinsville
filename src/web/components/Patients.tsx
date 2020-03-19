@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import styled from 'styled-components'
 
 import { IPatient } from '../../server/store'
-import { IFilter } from './Layout/Layout'
+import { IFilter } from './Filters'
 import PatientGrid from './Patients/Grid'
 import Scroll from './Scroll'
+import SortSelect from './SortSelect'
 
 interface IGetPatientsResponse {
   getPatients: {
@@ -42,15 +43,20 @@ const getPatientsQuery = gql`
   }
 `
 
+const SecondaryText = styled.p`
+  font-size: 0.8rem;
+  color: #5a565e;
+`
+
+const SortRow = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+`
+
 const PatientsWrapper = styled.div`
-  /* background-color: #a1a1a1; */
   color: #181719;
-  /* padding: 1rem; */
-  padding-bottom: 1rem;
-
-  border-bottom: solid 1px blueviolet;
-
-  margin-bottom: 1rem;
+  padding: 1rem;
 `
 
 interface IPatientsProps {
@@ -63,6 +69,7 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
     limit: 50
   }
 
+  const [sortBy, setSortBy] = useState('')
   const { loading, error, data, fetchMore } = useQuery<IGetPatientsResponse>(
     getPatientsQuery,
     {
@@ -86,6 +93,8 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
     totalCount,
     edges: { cursor, node: patients }
   } = data.getPatients || {}
+
+  const handleSortChange = (sortfield: string) => setSortBy(sortfield)
 
   const getMoreData = () => {
     if (!loading && cursor !== null) {
@@ -120,7 +129,10 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
 
   return (
     <PatientsWrapper>
-      <div>Showing {totalCount} patients</div>
+      <SortRow>
+        <SortSelect onSortChange={handleSortChange} value={sortBy} />
+        <SecondaryText>Showing {totalCount} patients</SecondaryText>
+      </SortRow>
       <Scroll onBoundaryReached={getMoreData}>
         <PatientGrid patients={patients} />
       </Scroll>

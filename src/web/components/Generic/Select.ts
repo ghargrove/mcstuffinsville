@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Select = styled.select`
   appearance: none;
@@ -6,6 +6,12 @@ const Select = styled.select`
   padding: 0.5rem;
   font-size: 1rem;
   outline: none;
+
+  ${({ value }) =>
+    value === '' &&
+    css`
+      color: #939393;
+    `}
 `
 
 export default Select
