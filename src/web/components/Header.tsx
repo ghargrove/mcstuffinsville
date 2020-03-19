@@ -5,7 +5,6 @@ import matchSorter from 'match-sorter'
 
 import logo from '../images/mcstuffinsville.png'
 import { DebouncedTextField } from './Generic'
-import { IFilterValue } from './Layout/Layout'
 
 const HeaderWrapper = styled.header`
   background-color: white;
@@ -18,20 +17,12 @@ const HeaderWrapper = styled.header`
 `
 
 interface IHeaderProps {
-  onSearchChange: (filters: IFilterValue[]) => void
+  onSearchChange: (search: string) => void
 }
 
 const Header: React.FC<IHeaderProps> = ({ onSearchChange }) => {
-  const handleSearchChange = (searchText: string) => {
-    // Pack this into a filter and pass it along
-    const value = searchText.trim()
-    onSearchChange([
-      {
-        field: 'firstName',
-        value
-      }
-    ])
-  }
+  const handleSearchChange = (searchText: string) =>
+    onSearchChange(searchText.trim())
 
   return (
     <HeaderWrapper>

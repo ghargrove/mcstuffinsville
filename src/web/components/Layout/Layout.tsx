@@ -1,57 +1,20 @@
 import React, { useState } from 'react'
 
 import matchSorter from 'match-sorter'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
-import { Select } from '../Generic'
+import FieldVisibilityProvider from '../FieldVisibilityProvider'
+import { FieldVisibilityFilters, IFilter, PatientFilters } from '../Filters'
+
 import Header from '../Header'
 import Filters from './Filters'
+import FilterGroup from './FilterGroup'
 import Main from './Main'
-
-import stateNames from './states.json'
-
-const Link = styled.a`
-  color: teal;
-  cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: 600;
-`
 
 const Layout = styled.div`
   min-height: 100vh;
   display: flex;
 `
-
-const FilterSelect = styled(Select)`
-  display: block;
-  width: 100%;
-
-  ${({ value }) =>
-    value === '' &&
-    css`
-      color: #939393;
-    `}
-`
-
-const SectionLabel = styled.h2`
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-`
-
-const FilterGroup = styled.div`
-  margin-bottom: 1rem;
-`
-
-export interface IFilterValue {
-  field: string
-  value: string
-  threshold?: number
-}
-
-interface ILayoutProps {
-  children: (args: { filters: IFilterValue[] }) => React.ReactChild
-}
 
 const defaultFilterValue = {
   field: '',
@@ -59,77 +22,73 @@ const defaultFilterValue = {
   threshold: matchSorter.rankings.CASE_SENSITIVE_EQUAL
 }
 
+interface ILayoutProps {
+  children: (args: { filters: IFilter[] }) => React.ReactChild
+}
+
 const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
-  const [genderFilter, setGenderFilter] = useState<IFilterValue>({
-    ...defaultFilterValue,
-    field: 'gender'
-  })
-  const [stateFilter, setStateFilter] = useState<IFilterValue>({
-    ...defaultFilterValue,
-    field: 'state'
-  })
-
-  const [searchFilter, setSearchFilter] = useState<IFilterValue>({
-    ...defaultFilterValue,
-    field: 'firstName'
+  const [filters, setFilters] = useState<{ [key: string]: IFilter }>({
+    firstName: {
+      ...defaultFilterValue,
+      field: 'firstName',
+      threshold: matchSorter.rankings.CONTAINS
+    },
+    gender: { ...defaultFilterValue, field: 'gender' },
+    state: { ...defaultFilterValue, field: 'state' }
   })
 
-  const handleGenderFilter: React.ChangeEventHandler<HTMLSelectElement> = ({
-    target: { value }
-  }) => setGenderFilter(prevState => ({ ...prevState, value }))
-
-  const handleStateFilter: React.ChangeEventHandler<HTMLSelectElement> = ({
-    target: { value }
-  }) => setStateFilter(prevState => ({ ...prevState, value }))
-
-  const handleSearchFilterChange = (searchFilters: IFilterValue[]) =>
-    setSearchFilter(searchFilters[0])
-
-  const handleFilterClear: React.MouseEventHandler = () => {
-    const clearFn: React.SetStateAction<IFilterValue> = prevState => ({
+  const handleSearchFilterChange = (search: string) =>
+    setFilters(prevState => ({
       ...prevState,
-      value: ''
-    })
-    setGenderFilter(clearFn)
-    setStateFilter(clearFn)
-  }
+      firstName: {
+        ...prevState.firstName,
+        value: search
+      }
+    }))
 
-  const filters = [genderFilter, searchFilter, stateFilter].filter(
-    f => f.value !== ''
+  const handlePatientFilterChange = (filter: IFilter) =>
+    setFilters(prevState => ({
+      ...prevState,
+      [filter.field]: filter
+    }))
+
+  const handlePatientFilterClear = () =>
+    setFilters(prevState => ({
+      ...prevState,
+      gender: {
+        ...prevState.gender,
+        value: ''
+      },
+      state: {
+        ...prevState.state,
+        value: ''
+      }
+    }))
+
+  // Could memoize this if you had many filters
+  const activeFilters = Object.values(filters).filter(
+    ({ value }) => value !== ''
   )
 
   return (
-    <div>
+    <FieldVisibilityProvider>
       <Header onSearchChange={handleSearchFilterChange} />
       <Layout>
         <Filters>
-          <SectionLabel>Filters</SectionLabel>
           <FilterGroup>
-            <FilterSelect
-              onChange={handleGenderFilter}
-              value={genderFilter.value}
-            >
-              {genderFilter.value === '' && <option>Gender</option>}
-              <option>Male</option>
-              <option>Female</option>
-            </FilterSelect>
+            <PatientFilters
+              filters={filters}
+              onFilterChange={handlePatientFilterChange}
+              onFilterClear={handlePatientFilterClear}
+            />
           </FilterGroup>
           <FilterGroup>
-            <FilterSelect
-              onChange={handleStateFilter}
-              value={stateFilter.value}
-            >
-              {stateFilter.value === '' && <option>State</option>}
-              {stateNames.map((state, i) => (
-                <option key={i}>{state}</option>
-              ))}
-            </FilterSelect>
+            <FieldVisibilityFilters />
           </FilterGroup>
-          <Link onClick={handleFilterClear}>Clear filters</Link>
         </Filters>
-        <Main>{children({ filters })}</Main>
+        <Main>{children({ filters: activeFilters })}</Main>
       </Layout>
-    </div>
+    </FieldVisibilityProvider>
   )
 }
 

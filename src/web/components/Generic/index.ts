@@ -1,3 +1,5 @@
 export { default as DebouncedTextField } from './DebouncedTextField'
+export * from './Link'
 export { default as Select } from './Select'
+export * from './Text'
 export { default as TextField } from './TextField'
