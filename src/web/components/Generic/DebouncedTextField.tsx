@@ -11,7 +11,7 @@ interface IDebouncedProps
     Exclude<keyof React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>
   > {
   onChange: (value: string) => void
-  timeout: number
+  timeout?: number
 }
 
 /**
@@ -33,7 +33,7 @@ const DebouncedTextField: React.FC<IDebouncedProps> = ({
   useEffect(() => {
     notify()
     return () => notify.clear()
-  })
+  }, [value])
 
   const handleValueChange: React.ChangeEventHandler<HTMLInputElement> = ({
     target: { value: newValue }

@@ -14,6 +14,7 @@ const HeaderWrapper = styled.header`
   justify-content: space-between;
   position: fixed;
   width: 100%;
+  z-index: 100;
 `
 
 interface IHeaderProps {
