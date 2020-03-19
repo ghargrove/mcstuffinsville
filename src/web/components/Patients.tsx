@@ -97,9 +97,9 @@ const Patients: React.FC = () => {
 
         {patients.map((p, i) => (
           <React.Fragment key={i}>
+            <PatientDataCell>{p.firstName}</PatientDataCell>
             <PatientDataCell>{p.lastName}</PatientDataCell>
             <PatientDataCell>{p.email}</PatientDataCell>
-            <PatientDataCell>{p.firstName}</PatientDataCell>
             <PatientDataCell>{p.gender}</PatientDataCell>
             <PatientDataCell>{p.address}</PatientDataCell>
             <PatientDataCell>{p.city}</PatientDataCell>

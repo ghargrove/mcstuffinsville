@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import logo from '../images/mcstuffinsville.png'
-import TextField from './Generic/TextField'
+import { TextField } from './Generic'
 
 const HeaderWrapper = styled.header`
   background-color: white;
@@ -27,7 +27,6 @@ const Header: React.FC = () => {
       <TextField
         onChange={handleSearchChange}
         placeholder="Search.."
-        type="text"
         value={searchText}
       />
     </HeaderWrapper>
