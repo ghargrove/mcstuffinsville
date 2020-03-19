@@ -46,6 +46,8 @@ const PatientsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   row-gap: 0.5rem;
+
+  /* height: 100vh; */
 `
 
 const PatientHeaderCell = styled.div`
@@ -92,6 +94,7 @@ const Patients: React.FC = () => {
         <PatientHeaderCell>State</PatientHeaderCell>
         <PatientHeaderCell>Zip Code</PatientHeaderCell>
         <PatientHeaderCell>Prescriptions</PatientHeaderCell>
+
         {patients.map((p, i) => (
           <React.Fragment key={i}>
             <PatientDataCell>{p.lastName}</PatientDataCell>
