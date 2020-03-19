@@ -100,38 +100,41 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
     edges: { cursor, node: patients }
   } = data.getPatients || {}
 
-  // if (cursor !== null) {
-  //   window.setTimeout(() => {
-  //     console.warn('Fetching new data')
+  const getMoreData: React.MouseEventHandler = () => {
+    if (cursor !== null) {
+      fetchMore({
+        query: getPatientsQuery,
+        variables: { ...variables, after: cursor },
 
-  //     // fetchMore({
-  //     //   query: getPatientsQuery,
+        updateQuery: (prevResult, { fetchMoreResult }) => {
+          // TODO: handle no `fetchMoreResult`
+          const {
+            getPatients: {
+              edges: { node: oldPatients }
+            }
+          } = prevResult
 
-  //     //   variables: { ...variables, cursor },
+          const newPatients = fetchMoreResult?.getPatients.edges.node || []
+          const newCursor = fetchMoreResult?.getPatients.edges.cursor
 
-  //     //   updateQuery: (prevResult, { fetchMoreResult }) => {
-  //     //     const prevEntry = prevResult
-  //     //     const oldPatients = prevEntry.getPatients.edges.node
-
-  //     //     const newPatients = fetchMoreResult?.getPatients.edges.node || []
-  //     //     const newCursor = fetchMoreResult?.getPatients.edges.cursor
-
-  //     //     return {
-  //     //       cursor: newCursor,
-  //     //       entry: {
-  //     //         node: [...newPatients, ...oldPatients]
-  //     //       }
-  //     //       // __typename: 'foo'
-  //     //     }
-  //     //   }
-  //     // })
-
-  //   }, 5000)
-  // }
+          return {
+            getPatients: {
+              ...prevResult.getPatients,
+              edges: {
+                ...prevResult.getPatients.edges,
+                cursor: newCursor,
+                node: [...newPatients, ...oldPatients]
+              }
+            }
+          } as IGetPatientsResponse
+        }
+      })
+    }
+  }
 
   return (
     <PatientsWrapper>
-      <div>Showing {totalCount} patients</div>
+      <div onClick={getMoreData}>Showing {totalCount} patients</div>
       <PatientsGrid>
         <PatientHeaderCell>First Name</PatientHeaderCell>
         <PatientHeaderCell>Last name</PatientHeaderCell>
