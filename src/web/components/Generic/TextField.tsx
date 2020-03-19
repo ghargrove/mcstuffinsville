@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const TextField = styled.input`
+const TextField = styled.input.attrs({ type: 'text' })`
   font-size: 1rem;
   padding: 0.5rem;
   border: none;

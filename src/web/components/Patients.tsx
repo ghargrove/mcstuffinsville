@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 // Load the IPatient type from the server
 import { IPatient } from '../../server/store'
+import { IFilterValue } from './Layout/Layout'
 
 interface IGetPatientsResponse {
   getPatients: {
@@ -62,11 +63,16 @@ const PatientDataCell = styled.div`
   padding: 0 0 0.5rem 0;
 `
 
-const Patients: React.FC = () => {
+interface IPatientsProps {
+  filters: IFilterValue[]
+}
+
+const Patients: React.FC<IPatientsProps> = ({ filters }) => {
   const { loading, error, data } = useQuery<IGetPatientsResponse>(
     getPatientsQuery,
     {
       variables: {
+        filters,
         limit: 50
       }
     }
@@ -97,9 +103,9 @@ const Patients: React.FC = () => {
 
         {patients.map((p, i) => (
           <React.Fragment key={i}>
+            <PatientDataCell>{p.firstName}</PatientDataCell>
             <PatientDataCell>{p.lastName}</PatientDataCell>
             <PatientDataCell>{p.email}</PatientDataCell>
-            <PatientDataCell>{p.firstName}</PatientDataCell>
             <PatientDataCell>{p.gender}</PatientDataCell>
             <PatientDataCell>{p.address}</PatientDataCell>
             <PatientDataCell>{p.city}</PatientDataCell>

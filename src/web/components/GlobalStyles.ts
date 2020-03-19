@@ -19,6 +19,7 @@ const GlobalStyles = createGlobalStyle`
   figure, figcaption, footer, header, hgroup,
   menu, nav, output, ruby, section, summary,
   time, mark, audio, video {
+    color: #181719;
     margin: 0;
     padding: 0;
     border: 0;
@@ -32,6 +33,9 @@ const GlobalStyles = createGlobalStyle`
     display: block;
   }
   body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
     line-height: 1;
   }
   ol, ul {
