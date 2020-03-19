@@ -6,10 +6,12 @@ import logo from '../images/mcstuffinsville.png'
 import TextField from './Generic/TextField'
 
 const HeaderWrapper = styled.header`
-  background-color: #efefef;
+  background-color: white;
   padding: 1rem;
   display: flex;
   justify-content: space-between;
+  position: fixed;
+  width: 100%;
 `
 
 const Header: React.FC = () => {

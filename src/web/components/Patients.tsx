@@ -67,7 +67,7 @@ const Patients: React.FC = () => {
     getPatientsQuery,
     {
       variables: {
-        limit: 100
+        limit: 50
       }
     }
   )
