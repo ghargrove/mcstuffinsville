@@ -1,6 +1,8 @@
+import React from 'react'
+
 import styled from 'styled-components'
 
-const TextField = styled.input.attrs({ type: 'text' })`
+const Input = styled.input`
   font-size: 1rem;
   padding: 0.5rem;
   border: none;
@@ -9,5 +11,9 @@ const TextField = styled.input.attrs({ type: 'text' })`
   outline: none;
   width: 400px;
 `
+
+const TextField: React.FC<React.InputHTMLAttributes<
+  HTMLInputElement
+>> = props => <Input {...props} type="text" />
 
 export default TextField

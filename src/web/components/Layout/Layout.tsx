@@ -37,7 +37,7 @@ const FilterGroup = styled.div`
 export interface IFilterValue {
   field: string
   value: string
-  threshold: number
+  threshold?: number
 }
 
 interface ILayoutProps {
@@ -60,6 +60,11 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
     field: 'state'
   })
 
+  const [searchFilter, setSearchFilter] = useState<IFilterValue>({
+    ...defaultFilterValue,
+    field: 'firstName'
+  })
+
   const handleGenderFilter: React.ChangeEventHandler<HTMLSelectElement> = ({
     target: { value }
   }) => setGenderFilter(prevState => ({ ...prevState, value }))
@@ -68,11 +73,16 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
     target: { value }
   }) => setStateFilter(prevState => ({ ...prevState, value }))
 
-  const filters = [genderFilter, stateFilter].filter(f => f.value !== '')
+  const handleSearchFilterChange = (searchFilters: IFilterValue[]) =>
+    setSearchFilter(searchFilters[0])
+
+  const filters = [genderFilter, searchFilter, stateFilter].filter(
+    f => f.value !== ''
+  )
 
   return (
     <div>
-      <Header />
+      <Header onSearchChange={handleSearchFilterChange} />
       <Layout>
         <Filters>
           <SectionLabel>Filters</SectionLabel>

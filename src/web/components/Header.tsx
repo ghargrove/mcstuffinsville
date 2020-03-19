@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import styled from 'styled-components'
+import matchSorter from 'match-sorter'
 
 import logo from '../images/mcstuffinsville.png'
-import { TextField } from './Generic'
+import { DebouncedTextField } from './Generic'
+import { IFilterValue } from './Layout/Layout'
 
 const HeaderWrapper = styled.header`
   background-color: white;
@@ -14,20 +16,28 @@ const HeaderWrapper = styled.header`
   width: 100%;
 `
 
-const Header: React.FC = () => {
-  const [searchText, setSearchText] = useState('')
+interface IHeaderProps {
+  onSearchChange: (filters: IFilterValue[]) => void
+}
 
-  const handleSearchChange: React.ChangeEventHandler<HTMLInputElement> = ({
-    target: { value }
-  }) => setSearchText(value)
+const Header: React.FC<IHeaderProps> = ({ onSearchChange }) => {
+  const handleSearchChange = (searchText: string) => {
+    // Pack this into a filter and pass it along
+    const value = searchText.trim()
+    onSearchChange([
+      {
+        field: 'firstName',
+        value
+      }
+    ])
+  }
 
   return (
     <HeaderWrapper>
       <img alt="McStuffinsville logo" src={logo} />
-      <TextField
+      <DebouncedTextField
         onChange={handleSearchChange}
         placeholder="Search.."
-        value={searchText}
       />
     </HeaderWrapper>
   )
