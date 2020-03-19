@@ -10,6 +10,7 @@ This application uses ts-node to run the express server in development. You can 
 
     npm run dev
     npm run server
+    npm run sb
 
 ## Testing
 

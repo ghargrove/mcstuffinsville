@@ -14,7 +14,10 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   module: {
-    rules: [{ test: /\.tsx?$/, loader: 'babel-loader' }]
+    rules: [
+      { test: /\.tsx?$/, loader: 'babel-loader' },
+      { test: /\.png$/, loader: 'file-loader'  }
+    ]
   },
   plugins: [
     new CleanWebpackPlugin(),
