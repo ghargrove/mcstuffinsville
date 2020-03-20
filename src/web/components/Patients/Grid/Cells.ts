@@ -9,21 +9,20 @@ export const MessageCell = styled(Cell)`
 `
 
 export const FirstNameCell = styled(Cell)`
-  width: 150px;
+  width: 125px;
 `
 
 export const LastNameCell = styled(Cell)`
-  width: 150px;
+  width: 125px;
 `
 
 export const EmailCell = styled(Cell)`
-  flex: 1;
-  width: 250px;
   word-wrap: break-word;
+  width: 300px;
 `
 
 export const GenderCell = styled(Cell)`
-  width: 100px;
+  width: 75px;
 `
 
 export const AddressCell = styled(Cell)`
@@ -36,6 +35,6 @@ export const AddressCell = styled(Cell)`
 
 export const PrescriptionsCell = styled(Cell)`
   flex: 1;
-  width: 200px;
   word-wrap: break-word;
+  width: 200px;
 `
