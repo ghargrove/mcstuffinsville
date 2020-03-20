@@ -46,6 +46,7 @@ const PatientFilters: React.FC<IPatientFiltersProps> = ({
       </div>
       <div style={{ marginBottom: '1rem' }}>
         <FilterSelect
+          data-testid="state-filter"
           name="state"
           onChange={handleFilterChange}
           value={filters.state.value}
