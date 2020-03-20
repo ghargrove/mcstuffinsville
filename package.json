@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --env.production",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "dev": "webpack-dev-server",
-    "test": "jest --watch",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "sb": "start-storybook -p 8081 --ci --quiet",
     "server": "nodemon --watch 'src/server/**/*.ts' --exec 'ts-node' src/server/index.ts",
-    "sb": "start-storybook -p 8081 --ci --quiet"
+    "test": "jest --watch"
   },
   "author": "Graham Hargrove",
   "license": "ISC",
