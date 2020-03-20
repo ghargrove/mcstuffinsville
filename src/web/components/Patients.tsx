@@ -8,8 +8,6 @@ import { IPatientSort, SortDirection } from '../../server/resolvers/patient'
 import { IPatient } from '../../server/store'
 import { IFilter } from './Filters'
 import PatientGrid from './Patients/Grid'
-import Scroll from './Scroll'
-import SortSelect from './SortSelect'
 
 interface IGetPatientsResponse {
   getPatients: {
@@ -49,17 +47,6 @@ const getPatientsQuery = gql`
   }
 `
 
-const SecondaryText = styled.p`
-  font-size: 0.8rem;
-  color: #5a565e;
-`
-
-const SortRow = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-`
-
 const PatientsWrapper = styled.div`
   color: #181719;
   padding: 1rem;
@@ -88,26 +75,17 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
     }
   )
 
-  if (error) {
-    return <div>Whoops</div>
-  }
-
-  if (loading) {
-    return <div>Loading patients...</div>
-  }
-
-  if (data === undefined) {
-    return <div>Whoops</div>
-  }
-
   const {
     totalCount,
     edges: { cursor, node: patients }
-  } = data.getPatients || {}
+  } = data?.getPatients || {
+    totalCount: 0,
+    edges: { cursor: null, node: [] }
+  }
 
   const handleSortChange = (sortBy: IPatientSort) => setSort(sortBy)
 
-  const getMoreData = () => {
+  const fetchMoreData = () => {
     if (!loading && cursor !== null) {
       fetchMore({
         query: getPatientsQuery,
@@ -140,13 +118,15 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
 
   return (
     <PatientsWrapper>
-      <SortRow>
-        <SortSelect onSortChange={handleSortChange} sort={sort} />
-        <SecondaryText>Showing {totalCount} patients</SecondaryText>
-      </SortRow>
-      <Scroll onBoundaryReached={getMoreData}>
-        <PatientGrid patients={patients} />
-      </Scroll>
+      <PatientGrid
+        onGetMoreData={fetchMoreData}
+        onPatientSort={handleSortChange}
+        patients={patients}
+        sort={sort}
+        totalPatientCount={totalCount}
+        loading={loading}
+        error={error !== undefined}
+      />
     </PatientsWrapper>
   )
 }
