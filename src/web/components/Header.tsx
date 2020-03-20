@@ -1,7 +1,6 @@
 import React from 'react'
 
 import styled from 'styled-components'
-import matchSorter from 'match-sorter'
 
 import logo from '../images/mcstuffinsville.png'
 import { DebouncedTextField } from './Generic'
@@ -12,7 +11,7 @@ const HeaderWrapper = styled.header`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
+  padding: ${props => props.theme.spacing.space400};
   position: fixed;
   width: 100%;
   z-index: 100;
