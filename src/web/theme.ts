@@ -5,6 +5,7 @@ const theme: DefaultTheme = {
   colors: {
     primary: 'teal',
     gray: {
+      gray000: '#f9f9f9',
       gray100: '#e0e0e0',
       gray200: '#efefef',
       gray300: '#939393 ',

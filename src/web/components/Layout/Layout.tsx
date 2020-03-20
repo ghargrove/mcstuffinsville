@@ -8,7 +8,7 @@ import { FieldVisibilityFilters, IFilter, PatientFilters } from '../Filters'
 import Shoutout from '../Shoutout'
 import { Link, SectionLabel } from '../Generic'
 import Header from '../Header'
-import Filters from './Filters'
+import FilterSidebar from './FilterSidebar'
 import FilterGroup from './FilterGroup'
 import Main from './Main'
 
@@ -75,7 +75,7 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
     <FieldVisibilityProvider>
       <Header onSearchChange={handleSearchFilterChange} />
       <Layout>
-        <Filters>
+        <FilterSidebar>
           <FilterGroup>
             <PatientFilters
               filters={filters}
@@ -100,7 +100,7 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
             </div>
           </FilterGroup>
           <Shoutout />
-        </Filters>
+        </FilterSidebar>
         <Main>{children({ filters: activeFilters })}</Main>
       </Layout>
     </FieldVisibilityProvider>
