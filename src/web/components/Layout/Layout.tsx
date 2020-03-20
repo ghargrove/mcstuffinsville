@@ -28,9 +28,9 @@ interface ILayoutProps {
 
 const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
   const [filters, setFilters] = useState<{ [key: string]: IFilter }>({
-    firstName: {
+    search: {
       ...defaultFilterValue,
-      field: 'firstName',
+      field: 'search',
       threshold: matchSorter.rankings.CONTAINS
     },
     gender: { ...defaultFilterValue, field: 'gender' },
@@ -40,8 +40,8 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
   const handleSearchFilterChange = (search: string) =>
     setFilters(prevState => ({
       ...prevState,
-      firstName: {
-        ...prevState.firstName,
+      search: {
+        ...prevState.search,
         value: search
       }
     }))

@@ -1,7 +1,8 @@
 import camelcase from 'lodash.camelcase'
 import patients from './patients.json'
+import { IPatientSort } from './resolvers/patient'
 
-let mappedPatients: IPatient[] = []
+let mappedPatients: ISearchablePatient[] = []
 
 export interface IPatient {
   id: number
@@ -16,6 +17,10 @@ export interface IPatient {
   prescription: string
 }
 
+export interface ISearchablePatient extends IPatient {
+  search: string
+}
+
 /**
  * Get patient data. This function will handle converting the json
  * data into camelcased keys
@@ -27,11 +32,14 @@ export const getPatients = () => {
   }
 
   mappedPatients = patients.map(p => {
+    let search = ''
     const patient: { [key: string]: any } = {}
     for (const [k, v] of Object.entries(p)) {
+      search += `${v} `
       patient[camelcase(k)] = v
     }
-    return patient as IPatient
+
+    return { ...patient, search: search.trim() } as ISearchablePatient
   })
 
   return mappedPatients

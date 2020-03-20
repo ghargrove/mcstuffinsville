@@ -2,7 +2,7 @@ import matchSorter from 'match-sorter'
 import { IResolvers } from 'graphql-tools'
 
 import { decodeCursor, encodeCursor } from '../helpers'
-import { getPatients, IPatient } from '../store'
+import { getPatients, IPatient, ISearchablePatient } from '../store'
 
 export enum SortDirection {
   ASC = 'ASC',
@@ -32,7 +32,7 @@ interface IPatientsResponse {
   totalCount: number
   edges: {
     cursor: string | null
-    node: IPatient[]
+    node: ISearchablePatient[]
   }
   pageInfo: {
     hasNextPage: boolean
@@ -47,7 +47,7 @@ interface IPatientsResponse {
  * @param limit - Number of patients included in the data set
  */
 const patientEdges = (
-  patients: IPatient[],
+  patients: ISearchablePatient[],
   after: string,
   limit: number | undefined
 ) => {
@@ -80,7 +80,7 @@ const patientEdges = (
  * @param patients - Array of patient data
  * @param sort - Object indicating how the patients should be sorted
  */
-const sortPatients = (patients: IPatient[], sort: IPatientSort) => {
+const sortPatients = (patients: ISearchablePatient[], sort: IPatientSort) => {
   const { direction, field } = sort
   return patients.sort((a, b) => {
     if (a[field] < b[field]) {
