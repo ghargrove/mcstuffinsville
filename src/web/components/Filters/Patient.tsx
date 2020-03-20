@@ -1,20 +1,15 @@
 import React from 'react'
 
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import stateNames from './states.json'
+import { IFilter } from './'
 import { Link, Select, SectionLabel } from '../Generic'
 
 const FilterSelect = styled(Select)`
   display: block;
   width: 100%;
 `
-
-export interface IFilter {
-  field: string
-  value: string
-  threshold?: number
-}
 
 interface IPatientFiltersProps {
   filters: { [key: string]: IFilter }

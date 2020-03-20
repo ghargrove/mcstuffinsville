@@ -21,14 +21,14 @@ export interface IPatientSort {
   field: 'id' | 'firstName' | 'lastName' | 'email' | 'city' | 'state'
 }
 
-interface IPatientsInput {
+interface IGetPatientsInput {
   after?: string
   filters?: IPatientFilter[]
   limit?: number
   sort?: IPatientSort
 }
 
-interface IPatientsResponse {
+interface IGetPatientsResponse {
   totalCount: number
   edges: {
     cursor: string | null
@@ -40,13 +40,13 @@ interface IPatientsResponse {
 }
 
 /**
- * Generate edge data for patients. I extracted this to keep the resolver slim.
+ * Generate edge data for patient pagination. I extracted this to keep the resolver slim.
  *
  * @param patients - Array of patient data to paginate
  * @param after - The cursor indicates where to start
  * @param limit - Number of patients included in the data set
  */
-const patientEdges = (
+const paginatePatients = (
   patients: ISearchablePatient[],
   after: string,
   limit: number | undefined
@@ -98,8 +98,8 @@ const patientResolvers: IResolvers = {
     getPatient: (_, { id }: { id: number }) => getPatients()[id],
     getPatients: (
       _,
-      { after, filters = [], limit, sort }: IPatientsInput
-    ): IPatientsResponse => {
+      { after, filters = [], limit, sort }: IGetPatientsInput
+    ): IGetPatientsResponse => {
       let patients = getPatients()
       for (const { exact = false, field, threshold, value } of filters) {
         // If we're looking for an exact match just filter it out.
@@ -135,7 +135,7 @@ const patientResolvers: IResolvers = {
         patients = sortPatients(patients, sort)
       }
 
-      const { nextCursor, range } = patientEdges(
+      const { nextCursor, range } = paginatePatients(
         patients,
         after || encodeCursor(patients[0].email),
         limit

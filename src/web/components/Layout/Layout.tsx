@@ -1,42 +1,33 @@
 import React, { useState } from 'react'
 
-import matchSorter from 'match-sorter'
 import styled from 'styled-components'
 
 import FieldVisibilityProvider from '../FieldVisibilityProvider'
-import { FieldVisibilityFilters, IFilter, PatientFilters } from '../Filters'
-import Shoutout from '../Shoutout'
+import {
+  defaultFilters,
+  FieldVisibilityFilters,
+  IFilter,
+  PatientFilters
+} from '../Filters'
+
 import { Link, SectionLabel } from '../Generic'
 import Header from '../Header'
-import FilterSidebar from './FilterSidebar'
+import Shoutout from '../Shoutout'
 import FilterGroup from './FilterGroup'
+import FilterSidebar from './FilterSidebar'
 import Main from './Main'
 
-const Layout = styled.div`
+const Content = styled.div`
   min-height: 100vh;
   display: flex;
 `
-
-const defaultFilterValue = {
-  field: '',
-  value: '',
-  threshold: matchSorter.rankings.CASE_SENSITIVE_EQUAL
-}
 
 interface ILayoutProps {
   children: (args: { filters: IFilter[] }) => React.ReactChild
 }
 
-const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
-  const [filters, setFilters] = useState<{ [key: string]: IFilter }>({
-    search: {
-      ...defaultFilterValue,
-      field: 'search',
-      threshold: matchSorter.rankings.CONTAINS
-    },
-    gender: { ...defaultFilterValue, field: 'gender' },
-    state: { ...defaultFilterValue, field: 'state' }
-  })
+const Layout: React.FC<ILayoutProps> = ({ children }) => {
+  const [filters, setFilters] = useState(defaultFilters)
 
   const handleSearchFilterChange = (search: string) =>
     setFilters(prevState => ({
@@ -74,7 +65,7 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
   return (
     <FieldVisibilityProvider>
       <Header onSearchChange={handleSearchFilterChange} />
-      <Layout>
+      <Content>
         <FilterSidebar>
           <FilterGroup>
             <PatientFilters
@@ -102,9 +93,9 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
           <Shoutout />
         </FilterSidebar>
         <Main>{children({ filters: activeFilters })}</Main>
-      </Layout>
+      </Content>
     </FieldVisibilityProvider>
   )
 }
 
-export default LayoutWrapper
+export default Layout
