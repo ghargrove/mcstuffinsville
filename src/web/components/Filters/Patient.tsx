@@ -44,7 +44,7 @@ const PatientFilters: React.FC<IPatientFiltersProps> = ({
           onChange={handleFilterChange}
           value={filters.gender.value}
         >
-          {filters.state.value === '' && <option>Gender</option>}
+          {filters.gender.value === '' && <option>Gender</option>}
           <option>Male</option>
           <option>Female</option>
         </FilterSelect>
