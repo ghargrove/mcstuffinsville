@@ -21,14 +21,14 @@ const theme: DefaultTheme = {
   },
   name: 'default',
   spacing: {
-    space100: '1rem',
-    space200: '1rem',
-    space300: '1rem',
+    space100: '.5rem',
+    space200: '.7rem',
+    space300: '.8rem',
     space400: '1rem',
-    space500: '1rem',
-    space600: '1rem',
-    space700: '1rem',
-    space800: '1rem'
+    space500: '1.2rem',
+    space600: '1.4rem',
+    space700: '2rem',
+    space800: '3rem'
   }
 }
 
