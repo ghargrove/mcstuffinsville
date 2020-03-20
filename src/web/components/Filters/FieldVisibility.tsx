@@ -2,7 +2,7 @@ import React from 'react'
 
 import useFieldVisibility from '../../hooks/useFieldVisibility'
 import { IFieldVisibilityState } from './../FieldVisibilityProvider'
-import { CheckboxLabel, SectionLabel } from './../Generic'
+import { SecondaryText, SectionLabel } from './../Generic'
 
 // Sort array and func to control rendering order
 const filterOrder = [
@@ -50,7 +50,7 @@ const FieldVisibilityFilters: React.FC = () => {
         .sort(filterSort)
         .map(([field, { label, isVisible }], index) => (
           <div key={index} style={{ marginBottom: '.5rem' }}>
-            <CheckboxLabel>
+            <SecondaryText as="label">
               <input
                 name={field}
                 onChange={handleVisibilityChange}
@@ -58,7 +58,7 @@ const FieldVisibilityFilters: React.FC = () => {
                 checked={isVisible}
               />{' '}
               {label}
-            </CheckboxLabel>
+            </SecondaryText>
           </div>
         ))}
     </React.Fragment>
