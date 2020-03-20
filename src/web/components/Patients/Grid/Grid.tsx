@@ -93,7 +93,7 @@ const PatientGrid: React.FC<IPatientGridProps> = ({
       <Header />
       {loading && <LoadingRow />}
       {error && <ErrorRow />}
-      {!loading && patients.length === 0 && <NoDataRow />}
+      {!error && !loading && patients.length === 0 && <NoDataRow />}
       {!loading &&
         !error &&
         patients.map((p, i) => <DataRow key={i} patient={p} />)}
