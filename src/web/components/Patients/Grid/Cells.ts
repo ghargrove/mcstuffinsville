@@ -5,7 +5,8 @@ interface ICellProps {
 }
 
 export const Cell = styled.div<ICellProps>`
-  padding: 1rem 0.5rem;
+  padding: ${({ theme: { spacing } }) =>
+    `${spacing.space400} ${spacing.space100}`};
 
   ${({ header }) =>
     header &&
