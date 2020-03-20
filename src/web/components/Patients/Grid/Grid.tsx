@@ -22,15 +22,19 @@ const Header: React.FC = () => {
   } = useFieldVisibility()
   return (
     <HeaderRow>
-      {lastName.isVisible && <Cells.LastNameCell>Last name</Cells.LastNameCell>}
-      {firstName.isVisible && (
-        <Cells.FirstNameCell>First name</Cells.FirstNameCell>
+      {lastName.isVisible && (
+        <Cells.LastNameCell header>Last name</Cells.LastNameCell>
       )}
-      {email.isVisible && <Cells.EmailCell>Email</Cells.EmailCell>}
-      {gender.isVisible && <Cells.GenderCell>Gender</Cells.GenderCell>}
-      {address.isVisible && <Cells.AddressCell>Address</Cells.AddressCell>}
+      {firstName.isVisible && (
+        <Cells.FirstNameCell header>First name</Cells.FirstNameCell>
+      )}
+      {email.isVisible && <Cells.EmailCell header>Email</Cells.EmailCell>}
+      {gender.isVisible && <Cells.GenderCell header>Gender</Cells.GenderCell>}
+      {address.isVisible && (
+        <Cells.AddressCell header>Address</Cells.AddressCell>
+      )}
       {prescriptions.isVisible && (
-        <Cells.PrescriptionsCell>Prescriptions</Cells.PrescriptionsCell>
+        <Cells.PrescriptionsCell header>Prescriptions</Cells.PrescriptionsCell>
       )}
     </HeaderRow>
   )

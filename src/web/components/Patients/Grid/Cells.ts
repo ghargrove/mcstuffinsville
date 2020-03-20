@@ -1,7 +1,17 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-export const Cell = styled.div`
+interface ICellProps {
+  header?: boolean
+}
+
+export const Cell = styled.div<ICellProps>`
   padding: 1rem 0.5rem;
+
+  ${({ header }) =>
+    header &&
+    css`
+      font-weight: 600;
+    `}
 `
 
 export const MessageCell = styled(Cell)`
