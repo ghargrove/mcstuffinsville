@@ -10,8 +10,8 @@ const theme: DefaultTheme = {
       gray200: '#efefef',
       gray300: '#939393 ',
       gray400: '#5a565e',
-      gray500: '#e0e0e0',
-      gray600: '#e0e0e0',
+      gray500: '#464349',
+      gray600: '#2B292D',
       gray700: '#181719'
     }
   },
