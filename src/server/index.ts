@@ -14,9 +14,8 @@ const app = express()
 app.use(express.static(distPath))
 server.applyMiddleware({ app })
 
-// Serve app
 app.get('/', (_, res) => {
-  res.send('helllo')
+  res.send('No dist file available. Please run `npm run build`')
 })
 
 // We only have a single page, so redirect
