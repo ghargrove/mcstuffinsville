@@ -1,5 +1,17 @@
 import gql from 'graphql-tag'
 
+import { IPatient } from '../../server/store'
+
+export interface IGetPatientsResponse {
+  getPatients: {
+    totalCount: number
+    edges: {
+      cursor: string | null
+      node: IPatient[]
+    }
+  }
+}
+
 export const getPatientsQuery = gql`
   query getPatients(
     $after: String

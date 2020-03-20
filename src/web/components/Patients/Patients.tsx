@@ -3,21 +3,13 @@ import React, { useState } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import styled from 'styled-components'
 
-import { IPatientSort, SortDirection } from '../../server/resolvers/patient'
-import { IPatient } from '../../server/store'
-import { getPatientsQuery } from '../queries/getPatients'
-import { IFilter } from './Filters'
-import PatientGrid from './Patients/Grid'
-
-interface IGetPatientsResponse {
-  getPatients: {
-    totalCount: number
-    edges: {
-      cursor: string | null
-      node: IPatient[]
-    }
-  }
-}
+import { IPatientSort, SortDirection } from '../../../server/resolvers/patient'
+import {
+  IGetPatientsResponse,
+  getPatientsQuery
+} from '../../queries/getPatients'
+import { IFilter } from '../Filters'
+import PatientGrid from '../Patients/Grid'
 
 const PatientsWrapper = styled.div`
   padding: ${props => props.theme.spacing.space400};
