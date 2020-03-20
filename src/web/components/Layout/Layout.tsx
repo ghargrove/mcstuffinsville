@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import FieldVisibilityProvider from '../FieldVisibilityProvider'
 import { FieldVisibilityFilters, IFilter, PatientFilters } from '../Filters'
-
+import Shoutout from '../Shoutout'
 import Header from '../Header'
 import Filters from './Filters'
 import FilterGroup from './FilterGroup'
@@ -85,6 +85,7 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
           <FilterGroup>
             <FieldVisibilityFilters />
           </FilterGroup>
+          <Shoutout />
         </Filters>
         <Main>{children({ filters: activeFilters })}</Main>
       </Layout>
