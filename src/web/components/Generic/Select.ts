@@ -6,11 +6,14 @@ interface ISelectProps {
 
 const Select = styled.select<ISelectProps>`
   appearance: none;
-  border: solid 1px ${props => props.theme.colors.gray.gray100};
-  border-radius: ${props => props.theme.borderRadius};
-  padding: 0.5rem;
-  font-size: 1rem;
   outline: none;
+
+  ${({ theme: { borderRadius, colors, fontSize, spacing } }) => css`
+    border: solid 1px ${colors.gray.gray100};
+    border-radius: ${borderRadius};
+    padding: ${spacing.space100};
+    font-size: ${fontSize.md};
+  `}
 
   ${({ placeholder, value }) =>
     (value === '' || value === placeholder) &&
