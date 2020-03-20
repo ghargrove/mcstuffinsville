@@ -1,9 +1,13 @@
 import React from 'react'
 
 import { IPatient } from '../../../../server/store'
+import { IPatientSort } from '../../../../server/resolvers/patient'
 import useFieldVisibility from '../../../hooks/useFieldVisibility'
+import { SecondaryText } from '../../Generic'
+import Scroll from '../../Scroll'
+import SortSelect from '../../SortSelect'
 import * as Cells from './Cells'
-import { Row } from './Row'
+import { ErrorRow, LoadingRow, NoDataRow, Row, SortRow } from './Row'
 
 const Header: React.FC = () => {
   const {
@@ -73,17 +77,40 @@ const DataRow: React.FC<{ patient: IPatient }> = ({ patient }) => {
 }
 
 interface IPatientGridProps {
+  error: boolean
+  loading: boolean
+  onGetMoreData: () => void
+  onPatientSort: (sort: IPatientSort) => void
   patients: IPatient[]
+  sort: IPatientSort
+  totalPatientCount: number
 }
 
-const PatientGrid: React.FC<IPatientGridProps> = ({ patients }) => {
+const PatientGrid: React.FC<IPatientGridProps> = ({
+  error,
+  onGetMoreData,
+  onPatientSort,
+  loading,
+  patients,
+  totalPatientCount,
+  sort
+}) => {
   return (
-    <React.Fragment>
+    <Scroll onBoundaryReached={onGetMoreData}>
+      <SortRow>
+        <SortSelect onSortChange={onPatientSort} sort={sort} />
+        <SecondaryText small>
+          Showing {totalPatientCount} patients
+        </SecondaryText>
+      </SortRow>
       <Header />
-      {patients.map((p, i) => (
-        <DataRow key={i} patient={p} />
-      ))}
-    </React.Fragment>
+      {loading && <LoadingRow />}
+      {error && <ErrorRow />}
+      {patients.length === 0 && <NoDataRow />}
+      {!loading &&
+        !error &&
+        patients.map((p, i) => <DataRow key={i} patient={p} />)}
+    </Scroll>
   )
 }
 

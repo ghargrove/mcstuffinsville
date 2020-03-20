@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const SectionLabel = styled.h2`
   font-size: 1.2rem;
@@ -8,4 +8,18 @@ export const SectionLabel = styled.h2`
 
 export const CheckboxLabel = styled.label`
   color: #5a565e;
+`
+
+interface ISecondaryTextProps {
+  small?: boolean
+}
+
+export const SecondaryText = styled.p<ISecondaryTextProps>`
+  color: #5a565e;
+
+  ${({ small }) =>
+    small &&
+    css`
+      font-size: 0.8rem;
+    `}
 `

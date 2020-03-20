@@ -4,6 +4,10 @@ export const Cell = styled.div`
   padding: 1rem 0;
 `
 
+export const MessageCell = styled(Cell)`
+  justify-self: center;
+`
+
 export const FirstNameCell = styled(Cell)`
   width: 200px;
 `
