@@ -12,7 +12,7 @@ const theme: DefaultTheme = {
       gray400: '#5a565e',
       gray500: '#e0e0e0',
       gray600: '#e0e0e0',
-      gray700: '#939393'
+      gray700: '#181719'
     }
   },
   fontSize: {

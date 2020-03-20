@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
 import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import styled from 'styled-components'
 
 import { IPatientSort, SortDirection } from '../../server/resolvers/patient'
 import { IPatient } from '../../server/store'
+import { getPatientsQuery } from '../queries/getPatients'
 import { IFilter } from './Filters'
 import PatientGrid from './Patients/Grid'
 
@@ -19,37 +19,8 @@ interface IGetPatientsResponse {
   }
 }
 
-const getPatientsQuery = gql`
-  query getPatients(
-    $after: String
-    $filters: [Filter!]
-    $limit: Int
-    $sort: Sort
-  ) {
-    getPatients(after: $after, filters: $filters, limit: $limit, sort: $sort) {
-      totalCount
-      edges {
-        cursor
-        node {
-          id
-          firstName
-          lastName
-          email
-          gender
-          address
-          city
-          state
-          zipCode
-          prescription
-        }
-      }
-    }
-  }
-`
-
 const PatientsWrapper = styled.div`
-  color: #181719;
-  padding: 1rem;
+  padding: ${props => props.theme.spacing.space400};
 `
 
 interface IPatientsProps {
@@ -85,6 +56,7 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
 
   const handleSortChange = (sortBy: IPatientSort) => setSort(sortBy)
 
+  // Support lazy loading
   const fetchMoreData = () => {
     if (!loading && cursor !== null) {
       fetchMore({
