@@ -1,9 +1,9 @@
 ![Mcstuffinsfille](/src/web/images/mcstuffinsville.png)
 ===
 
-Doc McStuffins toy hospital is a very busy place. This application is designed to help Doc keep tracks of toy (I mean patient) data
+Doc McStuffins toy hospital is a very busy place. McStuffinsville is an application designed to help Doc keep tracks of her toy (err I mean patient) data.
 
-Inspired by my daughter Rory
+Inspired by my daughter Rory ♥️
 
 ## 🏗 Development
 
