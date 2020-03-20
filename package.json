@@ -4,6 +4,7 @@
   "description": "Patient finder for olive",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --env.production",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "dev": "webpack-dev-server",
     "test": "jest --watch",
