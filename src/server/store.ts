@@ -14,6 +14,7 @@ export interface IPatient {
   state: string
   zipCode: string
   prescription: string
+  search: string
 }
 
 /**
@@ -27,11 +28,14 @@ export const getPatients = () => {
   }
 
   mappedPatients = patients.map(p => {
+    let search = ''
     const patient: { [key: string]: any } = {}
     for (const [k, v] of Object.entries(p)) {
+      search += `${v} `
       patient[camelcase(k)] = v
     }
-    return patient as IPatient
+
+    return { ...patient, search: search.trim() } as IPatient
   })
 
   return mappedPatients
