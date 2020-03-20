@@ -18,10 +18,10 @@ const Header: React.FC = () => {
   } = useFieldVisibility()
   return (
     <Row>
+      {lastName.isVisible && <Cells.LastNameCell>Last name</Cells.LastNameCell>}
       {firstName.isVisible && (
         <Cells.FirstNameCell>First name</Cells.FirstNameCell>
       )}
-      {lastName.isVisible && <Cells.LastNameCell>Last name</Cells.LastNameCell>}
       {email.isVisible && <Cells.EmailCell>Email</Cells.EmailCell>}
       {gender.isVisible && <Cells.GenderCell>Gender</Cells.GenderCell>}
       {address.isVisible && <Cells.AddressCell>Address</Cells.AddressCell>}
@@ -44,12 +44,12 @@ const DataRow: React.FC<{ patient: IPatient }> = ({ patient }) => {
     }
   } = useFieldVisibility()
   return (
-    <Row>
-      {firstName.isVisible && (
-        <Cells.FirstNameCell>{`${patient.id} -> ${patient.firstName}`}</Cells.FirstNameCell>
-      )}
+    <Row data-patient-id={patient.id}>
       {lastName.isVisible && (
         <Cells.LastNameCell>{patient.lastName}</Cells.LastNameCell>
+      )}
+      {firstName.isVisible && (
+        <Cells.FirstNameCell>{patient.firstName}</Cells.FirstNameCell>
       )}
       {email.isVisible && <Cells.EmailCell>{patient.email}</Cells.EmailCell>}
       {gender.isVisible && (

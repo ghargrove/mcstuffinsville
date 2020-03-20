@@ -4,6 +4,30 @@ import useFieldVisibility from '../../hooks/useFieldVisibility'
 import { IFieldVisibilityState } from './../FieldVisibilityProvider'
 import { CheckboxLabel, SectionLabel } from './../Generic'
 
+// Sort array and func to control rendering order
+const filterOrder = [
+  'lastName',
+  'firstName',
+  'email',
+  'gender',
+  'address',
+  'prescriptions'
+]
+const filterSort: (
+  a: [string, IFieldVisibilityState],
+  b: [string, IFieldVisibilityState]
+) => number = ([aName], [bName]) => {
+  const aIndex = filterOrder.indexOf(aName)
+  const bIndex = filterOrder.indexOf(bName)
+  if (aIndex < bIndex) {
+    return -1
+  } else if (aIndex > bIndex) {
+    return 1
+  } else {
+    return 0
+  }
+}
+
 const FieldVisibilityFilters: React.FC = () => {
   const { fieldVisibility, setFieldVisibility } = useFieldVisibility()
 
@@ -22,8 +46,9 @@ const FieldVisibilityFilters: React.FC = () => {
   return (
     <React.Fragment>
       <SectionLabel>View</SectionLabel>
-      {Object.entries(fieldVisibility).map(
-        ([field, { label, isVisible }], index) => (
+      {Object.entries(fieldVisibility)
+        .sort(filterSort)
+        .map(([field, { label, isVisible }], index) => (
           <div key={index} style={{ marginBottom: '.5rem' }}>
             <CheckboxLabel>
               <input
@@ -35,8 +60,7 @@ const FieldVisibilityFilters: React.FC = () => {
               {label}
             </CheckboxLabel>
           </div>
-        )
-      )}
+        ))}
     </React.Fragment>
   )
 }
