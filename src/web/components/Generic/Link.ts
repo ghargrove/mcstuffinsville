@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 export const Link = styled.a`
-  color: teal;
+  color: ${props => props.theme.colors.primary};
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: ${props => props.theme.fontSize.sm};
   font-weight: 600;
 `

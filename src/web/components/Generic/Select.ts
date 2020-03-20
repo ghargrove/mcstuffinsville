@@ -6,8 +6,8 @@ interface ISelectProps {
 
 const Select = styled.select<ISelectProps>`
   appearance: none;
-  border: solid 1px #e0e0e0;
-  border-radius: 4px;
+  border: solid 1px ${props => props.theme.colors.gray.gray100};
+  border-radius: ${props => props.theme.borderRadius};
   padding: 0.5rem;
   font-size: 1rem;
   outline: none;
@@ -15,7 +15,7 @@ const Select = styled.select<ISelectProps>`
   ${({ placeholder, value }) =>
     (value === '' || value === placeholder) &&
     css`
-      color: #939393;
+      color: ${props => props.theme.colors.gray.gray300};
     `}
 `
 

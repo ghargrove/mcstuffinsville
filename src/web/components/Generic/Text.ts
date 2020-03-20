@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components'
 
 export const SectionLabel = styled.h2`
-  font-size: 1.2rem;
+  font-size: ${props => props.theme.fontSize.lg};
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: ${props => props.theme.spacing.space400};
 `
 
 interface ISecondaryTextProps {
@@ -11,11 +11,11 @@ interface ISecondaryTextProps {
 }
 
 export const SecondaryText = styled.p<ISecondaryTextProps>`
-  color: #5a565e;
+  color: ${props => props.theme.colors.gray.gray400};
 
   ${({ small }) =>
     small &&
     css`
-      font-size: 0.8rem;
+      font-size: ${props => props.theme.fontSize.sm};
     `}
 `

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Main = styled.div`
-  background-color: #f9f9f9;
+  background-color: ${props => props.theme.colors.gray.gray000};
   margin: 70px 0 0 232px;
   width: 100%;
 `

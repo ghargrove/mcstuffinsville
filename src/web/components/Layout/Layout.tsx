@@ -6,8 +6,9 @@ import styled from 'styled-components'
 import FieldVisibilityProvider from '../FieldVisibilityProvider'
 import { FieldVisibilityFilters, IFilter, PatientFilters } from '../Filters'
 import Shoutout from '../Shoutout'
+import { Link, SectionLabel } from '../Generic'
 import Header from '../Header'
-import Filters from './Filters'
+import FilterSidebar from './FilterSidebar'
 import FilterGroup from './FilterGroup'
 import Main from './Main'
 
@@ -74,7 +75,7 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
     <FieldVisibilityProvider>
       <Header onSearchChange={handleSearchFilterChange} />
       <Layout>
-        <Filters>
+        <FilterSidebar>
           <FilterGroup>
             <PatientFilters
               filters={filters}
@@ -85,8 +86,21 @@ const LayoutWrapper: React.FC<ILayoutProps> = ({ children }) => {
           <FilterGroup>
             <FieldVisibilityFilters />
           </FilterGroup>
+          <FilterGroup>
+            <SectionLabel>Developer</SectionLabel>
+            <div>
+              <Link href="http://localhost:3000/graphql" target="__blank">
+                API
+              </Link>
+            </div>
+            <div>
+              <Link href="http://localhost:8081" target="__blank">
+                Component Library
+              </Link>
+            </div>
+          </FilterGroup>
           <Shoutout />
-        </Filters>
+        </FilterSidebar>
         <Main>{children({ filters: activeFilters })}</Main>
       </Layout>
     </FieldVisibilityProvider>

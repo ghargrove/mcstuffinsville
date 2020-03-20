@@ -1,13 +1,10 @@
 import React from 'react'
 
 import { IPatient } from '../../../../server/store'
-import { IPatientSort } from '../../../../server/resolvers/patient'
 import useFieldVisibility from '../../../hooks/useFieldVisibility'
-import { SecondaryText } from '../../Generic'
-import Scroll from '../../Scroll'
-import SortSelect from '../../SortSelect'
+
 import * as Cells from './Cells'
-import { ErrorRow, HeaderRow, LoadingRow, NoDataRow, Row, SortRow } from './Row'
+import { ErrorRow, HeaderRow, LoadingRow, NoDataRow, Row } from './Row'
 
 const Header: React.FC = () => {
   const {
@@ -22,15 +19,19 @@ const Header: React.FC = () => {
   } = useFieldVisibility()
   return (
     <HeaderRow>
-      {lastName.isVisible && <Cells.LastNameCell>Last name</Cells.LastNameCell>}
-      {firstName.isVisible && (
-        <Cells.FirstNameCell>First name</Cells.FirstNameCell>
+      {lastName.isVisible && (
+        <Cells.LastNameCell header>Last name</Cells.LastNameCell>
       )}
-      {email.isVisible && <Cells.EmailCell>Email</Cells.EmailCell>}
-      {gender.isVisible && <Cells.GenderCell>Gender</Cells.GenderCell>}
-      {address.isVisible && <Cells.AddressCell>Address</Cells.AddressCell>}
+      {firstName.isVisible && (
+        <Cells.FirstNameCell header>First name</Cells.FirstNameCell>
+      )}
+      {email.isVisible && <Cells.EmailCell header>Email</Cells.EmailCell>}
+      {gender.isVisible && <Cells.GenderCell header>Gender</Cells.GenderCell>}
+      {address.isVisible && (
+        <Cells.AddressCell header>Address</Cells.AddressCell>
+      )}
       {prescriptions.isVisible && (
-        <Cells.PrescriptionsCell>Prescriptions</Cells.PrescriptionsCell>
+        <Cells.PrescriptionsCell header>Prescriptions</Cells.PrescriptionsCell>
       )}
     </HeaderRow>
   )
@@ -79,30 +80,16 @@ const DataRow: React.FC<{ patient: IPatient }> = ({ patient }) => {
 interface IPatientGridProps {
   error: boolean
   loading: boolean
-  onGetMoreData: () => void
-  onPatientSort: (sort: IPatientSort) => void
   patients: IPatient[]
-  sort: IPatientSort
-  totalPatientCount: number
 }
 
 const PatientGrid: React.FC<IPatientGridProps> = ({
   error,
-  onGetMoreData,
-  onPatientSort,
   loading,
-  patients,
-  totalPatientCount,
-  sort
+  patients
 }) => {
   return (
-    <Scroll onBoundaryReached={onGetMoreData}>
-      <SortRow>
-        <SortSelect onSortChange={onPatientSort} sort={sort} />
-        <SecondaryText small>
-          Showing {totalPatientCount} patients
-        </SecondaryText>
-      </SortRow>
+    <React.Fragment>
       <Header />
       {loading && <LoadingRow />}
       {error && <ErrorRow />}
@@ -110,7 +97,7 @@ const PatientGrid: React.FC<IPatientGridProps> = ({
       {!loading &&
         !error &&
         patients.map((p, i) => <DataRow key={i} patient={p} />)}
-    </Scroll>
+    </React.Fragment>
   )
 }
 

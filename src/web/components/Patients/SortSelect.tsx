@@ -2,8 +2,8 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-import { IPatientSort, SortDirection } from '../../server/resolvers/patient'
-import { Select } from './Generic'
+import { IPatientSort, SortDirection } from '../../../server/resolvers/patient'
+import { Select } from '../Generic'
 
 const SortBySelect = styled(Select)`
   width: 200px;

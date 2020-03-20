@@ -19,7 +19,7 @@ const GlobalStyles = createGlobalStyle`
   figure, figcaption, footer, header, hgroup,
   menu, nav, output, ruby, section, summary,
   time, mark, audio, video {
-    color: #181719;
+    color: ${props => props.theme.colors.gray.gray700};
     margin: 0;
     padding: 0;
     border: 0;

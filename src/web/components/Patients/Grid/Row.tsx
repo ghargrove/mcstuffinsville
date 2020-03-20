@@ -10,7 +10,7 @@ export const Row = styled.div`
   flex: 1 1 auto;
 
   :nth-child(odd) {
-    background-color: #efefef;
+    background-color: ${props => props.theme.colors.gray.gray200};
   }
 `
 

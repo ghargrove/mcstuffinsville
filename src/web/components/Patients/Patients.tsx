@@ -1,55 +1,22 @@
 import React, { useState } from 'react'
 
 import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import styled from 'styled-components'
 
-import { IPatientSort, SortDirection } from '../../server/resolvers/patient'
-import { IPatient } from '../../server/store'
-import { IFilter } from './Filters'
-import PatientGrid from './Patients/Grid'
-
-interface IGetPatientsResponse {
-  getPatients: {
-    totalCount: number
-    edges: {
-      cursor: string | null
-      node: IPatient[]
-    }
-  }
-}
-
-const getPatientsQuery = gql`
-  query getPatients(
-    $after: String
-    $filters: [Filter!]
-    $limit: Int
-    $sort: Sort
-  ) {
-    getPatients(after: $after, filters: $filters, limit: $limit, sort: $sort) {
-      totalCount
-      edges {
-        cursor
-        node {
-          id
-          firstName
-          lastName
-          email
-          gender
-          address
-          city
-          state
-          zipCode
-          prescription
-        }
-      }
-    }
-  }
-`
+import { IPatientSort, SortDirection } from '../../../server/resolvers/patient'
+import {
+  IGetPatientsResponse,
+  getPatientsQuery
+} from '../../queries/getPatients'
+import { IFilter } from '../Filters'
+import { SecondaryText } from '../Generic'
+import PatientGrid from '../Patients/Grid'
+import { SortRow } from './Grid/Row'
+import Scroll from '../Scroll'
+import SortSelect from './SortSelect'
 
 const PatientsWrapper = styled.div`
-  color: #181719;
-  padding: 1rem;
+  padding: ${props => props.theme.spacing.space400};
 `
 
 interface IPatientsProps {
@@ -85,6 +52,7 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
 
   const handleSortChange = (sortBy: IPatientSort) => setSort(sortBy)
 
+  // Support lazy loading
   const fetchMoreData = () => {
     if (!loading && cursor !== null) {
       fetchMore({
@@ -118,15 +86,17 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
 
   return (
     <PatientsWrapper>
-      <PatientGrid
-        onGetMoreData={fetchMoreData}
-        onPatientSort={handleSortChange}
-        patients={patients}
-        sort={sort}
-        totalPatientCount={totalCount}
-        loading={loading}
-        error={error !== undefined}
-      />
+      <Scroll onBoundaryReached={fetchMoreData}>
+        <SortRow>
+          <SortSelect onSortChange={handleSortChange} sort={sort} />
+          <SecondaryText small>Showing {totalCount} patients</SecondaryText>
+        </SortRow>
+        <PatientGrid
+          patients={patients}
+          loading={loading}
+          error={error !== undefined}
+        />
+      </Scroll>
     </PatientsWrapper>
   )
 }
