@@ -1,5 +1,8 @@
 const storybookConfig = {
-  addons: ['storybook-addon-styled-component-theme/dist/register'],
+  addons: [
+    '@storybook/addon-knobs/register',
+    'storybook-addon-styled-component-theme/dist/register'
+  ],
   stories: ['../src/**/*.stories.tsx'],
   webpackFinal: async (config: any) => {
     config.module.rules.push({
