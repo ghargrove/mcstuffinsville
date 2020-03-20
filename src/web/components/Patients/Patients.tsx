@@ -9,7 +9,11 @@ import {
   getPatientsQuery
 } from '../../queries/getPatients'
 import { IFilter } from '../Filters'
+import { SecondaryText } from '../Generic'
 import PatientGrid from '../Patients/Grid'
+import { SortRow } from './Grid/Row'
+import Scroll from '../Scroll'
+import SortSelect from './SortSelect'
 
 const PatientsWrapper = styled.div`
   padding: ${props => props.theme.spacing.space400};
@@ -82,15 +86,17 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
 
   return (
     <PatientsWrapper>
-      <PatientGrid
-        onGetMoreData={fetchMoreData}
-        onPatientSort={handleSortChange}
-        patients={patients}
-        sort={sort}
-        totalPatientCount={totalCount}
-        loading={loading}
-        error={error !== undefined}
-      />
+      <Scroll onBoundaryReached={fetchMoreData}>
+        <SortRow>
+          <SortSelect onSortChange={handleSortChange} sort={sort} />
+          <SecondaryText small>Showing {totalCount} patients</SecondaryText>
+        </SortRow>
+        <PatientGrid
+          patients={patients}
+          loading={loading}
+          error={error !== undefined}
+        />
+      </Scroll>
     </PatientsWrapper>
   )
 }
