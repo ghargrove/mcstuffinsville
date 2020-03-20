@@ -8,6 +8,7 @@ import { DebouncedTextField } from './Generic'
 
 const HeaderWrapper = styled.header`
   background-color: white;
+  box-sizing: border-box;
   padding: 1rem;
   display: flex;
   justify-content: space-between;

@@ -7,6 +7,7 @@ interface ISelectProps {
 const Select = styled.select<ISelectProps>`
   appearance: none;
   border: solid 1px #e0e0e0;
+  border-radius: 4px;
   padding: 0.5rem;
   font-size: 1rem;
   outline: none;

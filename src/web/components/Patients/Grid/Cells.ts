@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Cell = styled.div`
-  padding: 1rem 0;
+  padding: 1rem 0.5rem;
 `
 
 export const MessageCell = styled(Cell)`
@@ -9,15 +9,16 @@ export const MessageCell = styled(Cell)`
 `
 
 export const FirstNameCell = styled(Cell)`
-  width: 200px;
+  width: 150px;
 `
 
 export const LastNameCell = styled(Cell)`
-  width: 200px;
+  width: 150px;
 `
 
 export const EmailCell = styled(Cell)`
   flex: 1;
+  width: 250px;
   word-wrap: break-word;
 `
 
@@ -35,4 +36,6 @@ export const AddressCell = styled(Cell)`
 
 export const PrescriptionsCell = styled(Cell)`
   flex: 1;
+  width: 200px;
+  word-wrap: break-word;
 `
