@@ -62,12 +62,21 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
         updateQuery: (prevResult, { fetchMoreResult }) => {
           const {
             getPatients: {
+              totalCount: prevTotalCount,
               edges: { node: oldPatients }
             }
           } = prevResult
 
           const newPatients = fetchMoreResult?.getPatients.edges.node || []
           const newCursor = fetchMoreResult?.getPatients.edges.cursor
+          const node = [...oldPatients, ...newPatients]
+
+          // Had a weird issue where if there was a very small number of results
+          // left it could trigger twice causing duplicates. If that occurs just
+          // discard the extra fetch
+          if (node.length > prevTotalCount) {
+            return prevResult
+          }
 
           return {
             getPatients: {
@@ -75,7 +84,7 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
               edges: {
                 ...prevResult.getPatients.edges,
                 cursor: newCursor,
-                node: [...oldPatients, ...newPatients]
+                node
               }
             }
           } as IGetPatientsResponse
