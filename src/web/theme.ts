@@ -3,7 +3,6 @@ import { DefaultTheme } from 'styled-components'
 const theme: DefaultTheme = {
   borderRadius: '4px',
   colors: {
-    primary: 'teal',
     gray: {
       gray000: '#f9f9f9',
       gray100: '#e0e0e0',
@@ -13,7 +12,9 @@ const theme: DefaultTheme = {
       gray500: '#464349',
       gray600: '#2B292D',
       gray700: '#181719'
-    }
+    },
+    primary: '#252556',
+    secondary: '#E3E3FC'
   },
   fontSize: {
     sm: '.8rem',

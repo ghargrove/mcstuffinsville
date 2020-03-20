@@ -1,17 +1,29 @@
 import React from 'react'
 
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { MessageCell } from './Cells'
 import { SecondaryText } from '../../Generic'
 
-export const Row = styled.div`
+interface IRowProps {
+  highlight?: boolean
+}
+
+export const Row = styled.div<IRowProps>`
   display: flex;
   flex: 1 1 auto;
 
   :nth-child(odd) {
     background-color: ${props => props.theme.colors.gray.gray200};
   }
+
+  ${({ highlight, theme }) =>
+    highlight &&
+    css`
+      :hover {
+        background-color: ${theme.colors.secondary};
+      }
+    `}
 `
 
 export const HeaderRow = styled(Row)`

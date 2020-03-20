@@ -49,7 +49,7 @@ const DataRow: React.FC<{ patient: IPatient }> = ({ patient }) => {
     }
   } = useFieldVisibility()
   return (
-    <Row data-patient-id={patient.id}>
+    <Row highlight data-patient-id={patient.id}>
       {lastName.isVisible && (
         <Cells.LastNameCell>{patient.lastName}</Cells.LastNameCell>
       )}

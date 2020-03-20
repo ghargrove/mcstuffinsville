@@ -5,6 +5,7 @@ declare module 'styled-components' {
     borderRadius: string
     colors: {
       primary: string
+      secondary: string
       gray: {
         gray000: string
         gray100: string
