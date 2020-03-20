@@ -101,7 +101,6 @@ const patientResolvers: IResolvers = {
       { after, filters = [], limit, sort }: IPatientsInput
     ): IPatientsResponse => {
       let patients = getPatients()
-
       for (const { exact = false, field, threshold, value } of filters) {
         // If we're looking for an exact match just filter it out.
         // The same result could be had by providing threshold == matchSorter.ranking.CASE_SENSITIVE_EQUAL.
@@ -116,6 +115,20 @@ const patientResolvers: IResolvers = {
           ...(threshold !== undefined ? { threshold } : {}),
           keys: [field]
         })
+      }
+
+      // Short circuit if we have no patients
+      if (patients.length === 0) {
+        return {
+          totalCount: 0,
+          edges: {
+            cursor: null,
+            node: []
+          },
+          pageInfo: {
+            hasNextPage: false
+          }
+        }
       }
 
       if (sort) {
