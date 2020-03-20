@@ -98,7 +98,9 @@ const Patients: React.FC<IPatientsProps> = ({ filters }) => {
       <Scroll onBoundaryReached={fetchMoreData}>
         <SortRow>
           <SortSelect onSortChange={handleSortChange} sort={sort} />
-          <SecondaryText small>Showing {totalCount} patients</SecondaryText>
+          <SecondaryText data-testid="total-count" small>
+            Showing {totalCount} patients
+          </SecondaryText>
         </SortRow>
         <PatientGrid
           patients={patients}
