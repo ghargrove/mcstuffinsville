@@ -18,7 +18,7 @@ Inspired by my daughter Rory ♥️
 
 This application was developed with [nodenv](https://github.com/nodenv/nodenv) using Node v12.16.0. A `.node-version` file included
 
-    nodenv install 12.13.0
+    nodenv install 12.16.0
     npm install
 
 This application uses ts-node to run the express server.
