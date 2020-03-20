@@ -2,6 +2,8 @@ import React from 'react'
 
 import Select from './Select'
 
+import states from '../Filters/states.json'
+
 export default {
   component: Select,
   title: 'Select'
@@ -9,11 +11,8 @@ export default {
 
 export const basicSelect = () => (
   <Select>
-    <option>--</option>
-    <option>Alabama</option>
-    <option>Alaska</option>
-    <option>Arizona</option>
-    <option>Arkansas</option>
-    <option>California</option>
+    {states.map((state, i) => (
+      <option key={i}>{state}</option>
+    ))}
   </Select>
 )
