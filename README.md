@@ -1,4 +1,4 @@
-![Mcstuffinsfille](/src/web/images/mcstuffinsville.png)
+![Mcstuffinsville](/src/web/images/mcstuffinsville.png)
 ===
 
 Doc McStuffins toy hospital is a very busy place. McStuffinsville is an application designed to help Doc (and maybe Olive) keep track of her toy (err I mean patient) data.
