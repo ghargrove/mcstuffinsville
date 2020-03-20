@@ -27,7 +27,7 @@ const Scroll: React.FC<IScrollProps> = ({
       } = document
       const currentYPosition = window.innerHeight + scrollTop
 
-      // If we're within 100px of the bottom, trigger our handler
+      // Trigger then handler once the threshold is reached
       if (currentYPosition >= bottom - threshold) {
         onBoundaryReached()
       }
