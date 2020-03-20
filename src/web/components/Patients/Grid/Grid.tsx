@@ -5,7 +5,7 @@ import { IPatientSort } from '../../../../server/resolvers/patient'
 import useFieldVisibility from '../../../hooks/useFieldVisibility'
 import { SecondaryText } from '../../Generic'
 import Scroll from '../../Scroll'
-import SortSelect from '../../SortSelect'
+import SortSelect from '../SortSelect'
 import * as Cells from './Cells'
 import { ErrorRow, HeaderRow, LoadingRow, NoDataRow, Row, SortRow } from './Row'
 
