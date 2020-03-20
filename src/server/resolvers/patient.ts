@@ -4,6 +4,11 @@ import { IResolvers } from 'graphql-tools'
 import { decodeCursor, encodeCursor } from '../helpers'
 import { getPatients, IPatient } from '../store'
 
+export enum SortDirection {
+  ASC = 'ASC',
+  DESC = 'DESC'
+}
+
 interface IPatientFilter {
   exact: boolean
   field: keyof IPatient
@@ -11,10 +16,16 @@ interface IPatientFilter {
   value: string
 }
 
+export interface IPatientSort {
+  direction: SortDirection
+  field: 'id' | 'firstName' | 'lastName' | 'email' | 'city' | 'state'
+}
+
 interface IPatientsInput {
   after?: string
-  limit?: number
   filters?: IPatientFilter[]
+  limit?: number
+  sort?: IPatientSort
 }
 
 interface IPatientsResponse {
@@ -63,14 +74,34 @@ const patientEdges = (
   }
 }
 
+/**
+ * Sort a list of patients
+ *
+ * @param patients - Array of patient data
+ * @param sort - Object indicating how the patients should be sorted
+ */
+const sortPatients = (patients: IPatient[], sort: IPatientSort) => {
+  const { direction, field } = sort
+  return patients.sort((a, b) => {
+    if (a[field] < b[field]) {
+      return direction === SortDirection.ASC ? -1 : 1
+    } else if (a[field] > b[field]) {
+      return direction === SortDirection.ASC ? 1 : -1
+    } else {
+      return 0
+    }
+  })
+}
+
 const patientResolvers: IResolvers = {
   Query: {
     getPatient: (_, { id }: { id: number }) => getPatients()[id],
     getPatients: (
       _,
-      { after, filters = [], limit }: IPatientsInput
+      { after, filters = [], limit, sort }: IPatientsInput
     ): IPatientsResponse => {
       let patients = getPatients()
+
       for (const { exact = false, field, threshold, value } of filters) {
         // If we're looking for an exact match just filter it out.
         // The same result could be had by providing threshold == matchSorter.ranking.CASE_SENSITIVE_EQUAL.
@@ -85,6 +116,10 @@ const patientResolvers: IResolvers = {
           ...(threshold !== undefined ? { threshold } : {}),
           keys: [field]
         })
+      }
+
+      if (sort) {
+        patients = sortPatients(patients, sort)
       }
 
       const { nextCursor, range } = patientEdges(

@@ -29,11 +29,21 @@ const patientType = gql`
     pageInfo: PageInfo
   }
 
+  enum SortDirection {
+    ASC
+    DESC
+  }
+
   input Filter {
     exact: Boolean
     field: String!
     value: String!
     threshold: Int
+  }
+
+  input Sort {
+    field: String!
+    direction: SortDirection!
   }
 
   extend type Query {
@@ -42,6 +52,7 @@ const patientType = gql`
       after: String
       filters: [Filter!]
       limit: Int
+      sort: Sort
     ): GetPatientsResponse
   }
 `

@@ -8,12 +8,6 @@ import { Link, Select, SectionLabel } from '../Generic'
 const FilterSelect = styled(Select)`
   display: block;
   width: 100%;
-
-  ${({ value }) =>
-    value === '' &&
-    css`
-      color: #939393;
-    `}
 `
 
 export interface IFilter {
