@@ -7,7 +7,7 @@ import { SecondaryText } from '../../Generic'
 import Scroll from '../../Scroll'
 import SortSelect from '../../SortSelect'
 import * as Cells from './Cells'
-import { ErrorRow, LoadingRow, NoDataRow, Row, SortRow } from './Row'
+import { ErrorRow, HeaderRow, LoadingRow, NoDataRow, Row, SortRow } from './Row'
 
 const Header: React.FC = () => {
   const {
@@ -21,7 +21,7 @@ const Header: React.FC = () => {
     }
   } = useFieldVisibility()
   return (
-    <Row>
+    <HeaderRow>
       {lastName.isVisible && <Cells.LastNameCell>Last name</Cells.LastNameCell>}
       {firstName.isVisible && (
         <Cells.FirstNameCell>First name</Cells.FirstNameCell>
@@ -32,7 +32,7 @@ const Header: React.FC = () => {
       {prescriptions.isVisible && (
         <Cells.PrescriptionsCell>Prescriptions</Cells.PrescriptionsCell>
       )}
-    </Row>
+    </HeaderRow>
   )
 }
 

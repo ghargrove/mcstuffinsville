@@ -14,6 +14,10 @@ export const Row = styled.div`
   }
 `
 
+export const HeaderRow = styled(Row)`
+  border-bottom: solid 2px #d3d3d3;
+`
+
 export const SortRow = styled.div`
   align-items: center;
   display: flex;
